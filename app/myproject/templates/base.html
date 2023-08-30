@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&M</title>
+    <link rel="stylesheet" href="../static/bootstrap-5.0.2-dist/css/bootstrap.css">
+    <script src="../static/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='html_img/logo.png') }}" type="image/x-icon">
+    <script src="../static/vendor/jquery/jquery.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Additional Scripts -->
+    <script src="../static/assets/js/custom.js"></script>
+    <script src="../static/assets/js/owl.js"></script>
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <!-- <link rel="stylesheet" href="assets/css/tooplate-main.css"> -->
+    <link rel="stylesheet" href="../static/assets/css/owl.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        /* Content container */
+        .content {
+            flex: 1;
+            padding-bottom: 60px;
+
+            /* Allow content to stretch and push footer to bottom */
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        .section-heading {
+            margin-top: 80px;
+            margin-bottom: 40px;
+        }
+
+        .section-heading .line-dec {
+            width: 30px;
+            height: 5px;
+            background-color: #3a8bcd;
+        }
+
+        .featured-items {
+            margin-bottom: 70px;
+        }
+
+        .featured-item {
+            border-radius: 5px;
+            border: 1px solid #eee;
+            padding: 20px;
+            transition: all 0.5s;
+        }
+
+        .featured-item:hover {
+            opacity: 0.9;
+        }
+
+        .featured-item img {
+            width: 100%;
+        }
+
+        .featured-item h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1e1e1e;
+            margin-top: 15px;
+            transition: all 0.5s;
+        }
+
+        .featured-item:hover h4 {
+            color: #3a8bcd;
+        }
+
+        .featured-item h6 {
+            color: #3a8bcd;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 0px;
+        }
+
+        .owl-theme .owl-dots {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .owl-theme .owl-dots .owl-dot {
+            outline: none;
+        }
+
+        .owl-theme .owl-dots .active span {
+            background-color: #3a8bcd !important;
+        }
+
+        .owl-theme .owl-dots .owl-dot span {
+            background-color: #aaa;
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+            margin: 0px 5px;
+            outline: none;
+        }
+
+        .sub-footer {
+            border-top: 1px solid #eee;
+            text-align: center;
+            background-color: #1e1e1e;
+        }
+
+        .sub-footer p {
+            font-size: 20px;
+            color: white;
+            line-height: 60px;
+        }
+
+        .banner {
+            margin-top: 20px;
+            background-image: url("../static/html_img/background.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            padding: 150px 0px;
+            background-position: center center;
+            height: 700px;
+        }
+
+        .ispan-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ispan {
+            margin-top: 20px;
+            max-width: 100%;
+            height: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    {% include "parts/navbar.html" %}
+    <div class="content">
+        <div class="ispan-container">
+            <img src="../static/html_img/ispan_logo.png" alt="" class="ispan">
+        </div>
+        <div class="banner"></div>
+        <label></label>
+        <form action="/">
+            <div style="float: left; margin-left: 350px;">
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    style="width: 300px;">
+                    <option selected>age</option>
+                    <option value="1">16-22</option>
+                    <option value="2">22-40</option>
+                    <option value="3">40-65</option>
+                    <option value="4">65up</option>
+                </select>
+            </div>
+            <div style="float: left; margin-left: 50px;">
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    style="width: 300px;">
+                    <option selected>Have kids</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <button style="float: left; margin-left: 50px;" type="submit" class="btn btn-primary btn-lg">search</button>
+        </form>
+        <div class="clearfix"></div>
+        <div class="featured-items">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-heading">
+                            <div class="line-dec"></div>
+                            <h1>Featured Items</h1>
+                        </div>
+                    </div>
+                    <form method="post" action="/test"></form>
+                    <div class="col-md-12">
+                        <div class="owl-carousel owl-theme">
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-01.jpg" alt="Item 1">
+                                <h4>Proin vel ligula</h4>
+                                <h6>$15.00</h6>
+                            </div>
+
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-02.jpg" alt="Item 2">
+                                <h4>Erat odio rhoncus</h4>
+                                <h6>$25.00</h6>
+                            </div>
+
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-03.jpg" alt="Item 3">
+                                <h4>Integer vel turpis</h4>
+                                <h6>$35.00</h6>
+                            </div>
+
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-04.jpg" alt="Item 4">
+                                <h4>Sed purus quam</h4>
+                                <h6>$45.00</h6>
+                            </div>
+
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-05.jpg" alt="Item 5">
+                                <h4>Morbi aliquet</h4>
+                                <h6>$55.00</h6>
+                            </div>
+
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-06.jpg" alt="Item 6">
+                                <h4>Urna ac diam</h4>
+                                <h6>$65.00</h6>
+                            </div>
+
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-07.jpg" alt="Item 7">
+                                <h4>Proin eget imperdiet</h4>
+                                <h6>$75.00</h6>
+                            </div>
+
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-08.jpg" alt="Item 8">
+                                <h4>Nullam risus nisl</h4>
+                                <h6>$85.00</h6>
+                            </div>
+
+
+                            <div class="featured-item" data-item-id="108775015">
+                                <img src="../static/proudct_img/item-09.jpg" alt="Item 9">
+                                <h4>Cras tempus</h4>
+                                <h6>$95.00</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <img src="/static/html_img/carousel1.jpg" alt="">
+        </div>
+        <div>
+            <img src="/static/html_img/carousel1.jpg" alt="">
+        </div>
+        <div>
+            <img src="/static/html_img/carousel1.jpg" alt="">
+        </div>
+    </div>
+    <div class="sub-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyright-text">
+                        <p>BDSE31 H&M Clothing recommendation system</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.featured-item').click(function () {
+                var itemId = $(this).data('item-id');
+                $.ajax({
+                    url: '/test',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ 'item_id': itemId }),
+                    success: function (data) {
+                        $('.similar-ids-container').empty();
+                        data.forEach(function (id) {
+                            $('.similar-ids-container').append('<p>' + id + '</p>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

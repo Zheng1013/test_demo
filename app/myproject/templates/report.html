@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&M report</title>
+    <link rel="stylesheet" href="../static/bootstrap-5.0.2-dist/css/bootstrap.css">
+    <script src="../static/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='html_img/logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="../static/bootstrap-5.0.2-dist/css/carousel.css">
+    <script src="../static/bootstrap-5.0.2-dist/js/carousel.js"></script>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            background-color: antiquewhite;
+        }
+
+        /* Set minimum height to 100% for body to ensure footer stays at bottom */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* Allow footer to stretch to bottom */
+        }
+
+        /* Content container */
+        .content {
+            flex: 1;
+            padding-bottom: 60px
+                /* Allow content to stretch and push footer to bottom */
+        }
+
+        /* Footer styles */
+        .sub-footer {
+            border-top: 1px solid #eee;
+            text-align: center;
+            background-color: #1e1e1e;
+        }
+
+        .sub-footer p {
+            font-size: 20px;
+            color: white;
+            line-height: 60px;
+        }
+
+        .report-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px;
+        }
+
+        .report-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    {% include "parts/navbar.html" %}
+    <div class="content">
+        <br>
+        <div>
+            <div class="wrapper">
+                <a class="slide-arrow" id="slidePrev"><i class="fa-solid fa-arrow-left"></i></a>
+                <a class="slide-arrow right" id="slideNext"><i class="fa-solid fa-arrow-right"></i></a>
+                <ul class="slide-imgs" id="slideImgs">
+                    <li><img src="../static/html_img/carousel1.jpg" alt=""></li>
+                    <li><img src="../static/html_img/carousel2.jpg" alt=""></li>
+                    <li><img src="../static/html_img/carousel3.jpg" alt=""></li>
+                    <li><img src="../static/html_img/carousel4.jpg" alt=""></li>
+                    <li><img src="../static/html_img/carousel5.jpg" alt=""></li>
+                </ul>
+                <ul class="pages">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div style="display: flex;margin-top: 20px;">
+            <select class="form-select form-select-lg mb-3" style="width: 200px;margin-left: 100px;">
+                <option selected>Report Type 1</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select>
+
+            <select class="form-select form-select-lg mb-3" style="width: 200px;margin-left: 100px;">
+                <option selected>Report Type 2</option>
+                <option value="1">Option A</option>
+                <option value="2">Option B</option>
+                <option value="3">Option C</option>
+            </select>
+
+            <select class="form-select form-select-lg mb-3" style="width: 200px;margin-left: 100px;">
+                <option selected>Report Type 3</option>
+                <option value="1">Choice X</option>
+                <option value="2">Choice Y</option>
+                <option value="3">Choice Z</option>
+            </select>
+
+        </div>
+        <div class="report-container">
+            <img src="../static/report_img/product_type_16-22.png" alt="" class="report-image">
+        </div>
+        <div class="report-container">
+            <img src="../static/report_img/product_type_16-22.png" alt="" class="report-image">
+        </div>
+    </div>>
+    <div class="sub-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyright-text">
+                        <p>BDSE31 H&M Clothing recommendation system</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
