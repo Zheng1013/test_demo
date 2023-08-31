@@ -1,3 +1,4 @@
+{% include "parts/navbar.html" %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,68 +6,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>H&M recommed</title>
-    <link rel="stylesheet" href="../static/bootstrap-5.0.2-dist/css/bootstrap.css">
-    <script src="../static/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
-    <link rel="icon" href="{{ url_for('static', filename='html_img/logo.png') }}" type="image/x-icon">
-
     <style>
-        body,
-        html {
-            margin: 0;
-            padding: 0;
+        body {
             background-color: antiquewhite;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            /* Allow footer to stretch to bottom */
-        }
 
-        /* Content container */
-        .content {
-            flex: 1;
-            padding-bottom: 60px
-                /* Allow content to stretch and push footer to bottom */
-        }
-
-        /* Footer styles */
-        .sub-footer {
-            border-top: 1px solid #eee;
-            text-align: center;
-            background-color: #1e1e1e;
-        }
-
-        .sub-footer p {
-            font-size: 20px;
-            color: white;
-            line-height: 60px;
         }
     </style>
 </head>
 
 <body>
-    {% include "parts/navbar.html" %}
+
     <div class="content">
-        <div>
-            <img src="/static/html_img/carousel1.jpg" alt="">
-        </div>
-        <div>
-            <img src="/static/html_img/carousel1.jpg" alt="">
-        </div>
-        <div>
-            <img src="/static/html_img/carousel1.jpg" alt="">
-        </div>
-    </div>
-    <div class="sub-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright-text">
-                        <p>BDSE31 H&M Clothing recommendation system</p>
-                    </div>
-                </div>
+        <form action="/test" method="POST">
+            <div class="input-group mb-3">
+                <input type="number" class="form-control" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" name="itemId">
             </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div>
+            <img src="/static/html_img/carousel1.jpg" alt="">
+        </div>
+        <div>
+            <img src="/static/html_img/carousel1.jpg" alt="">
         </div>
     </div>
+    {% include "parts/footer.html" %}
 </body>
 
 </html>

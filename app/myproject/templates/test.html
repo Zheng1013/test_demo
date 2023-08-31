@@ -1,3 +1,17 @@
-{% extends "parts/recommed.html" %}
+{% include "parts/navbar.html" %}
+<style>
+    .content {
+        flex: 1;
+        padding-bottom: 60px;
 
-<div> {{ data }}</div>
+        /* Allow content to stretch and push footer to bottom */
+    }
+</style>
+<div class="content">
+    <div class="row">
+        <div class="alert alert-primary col-6 mx-auto" role="alert">
+            <h1 class="col-6 mx-auto display-4 text-center">{{ data }}</h1>
+        </div>
+    </div>
+</div>
+{% include "parts/footer.html" %}

@@ -1,3 +1,4 @@
+{% include "parts/navbar.html" %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,9 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>H&M</title>
-    <link rel="stylesheet" href="../static/bootstrap-5.0.2-dist/css/bootstrap.css">
-    <script src="../static/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
-    <link rel="icon" href="{{ url_for('static', filename='html_img/logo.png') }}" type="image/x-icon">
     <script src="../static/vendor/jquery/jquery.js"></script>
     <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -107,18 +105,6 @@
             outline: none;
         }
 
-        .sub-footer {
-            border-top: 1px solid #eee;
-            text-align: center;
-            background-color: #1e1e1e;
-        }
-
-        .sub-footer p {
-            font-size: 20px;
-            color: white;
-            line-height: 60px;
-        }
-
         .banner {
             margin-top: 20px;
             background-image: url("../static/html_img/background.png");
@@ -144,7 +130,6 @@
 </head>
 
 <body>
-    {% include "parts/navbar.html" %}
     <div class="content">
         <div class="ispan-container">
             <img src="../static/html_img/ispan_logo.png" alt="" class="ispan">
@@ -255,17 +240,7 @@
             <img src="/static/html_img/carousel1.jpg" alt="">
         </div>
     </div>
-    <div class="sub-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright-text">
-                        <p>BDSE31 H&M Clothing recommendation system</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include "parts/footer.html" %}
     <script>
         $(document).ready(function () {
             $('.featured-item').click(function () {

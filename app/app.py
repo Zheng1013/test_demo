@@ -34,7 +34,15 @@ def report():
 
 @app.route('/recommed')
 def recommed():
-    return render_template('recommed.html')
+        return render_template('recommed.html')
+    
+@app.route('/test',methods=['POST'])
+def test(): 
+    if request.method == 'POST':
+        item_id = request.form['itemId']
+        item_id = int(item_id)
+        similar_ids = model.knn_model(item_id)
+        return render_template('test.html',data=similar_ids) 
 
 #--------登錄系統-------
 
@@ -81,11 +89,11 @@ def welcome_user():
 #--------登錄系統end-------
 
 
-@app.route('/test',methods=['GET','POST'])
-def get_similar_ids():
-    item_id = request.json['item_id']
-    similar_ids = model.knn_model(item_id)
-    return render_template('test.html',data=similar_ids)  # Return the first 5 similar item IDs
+# @app.route('/test',methods=['GET','POST'])
+# def get_similar_ids():
+#     item_id = request.json['item_id']
+#     similar_ids = model.knn_model(item_id)
+#     return render_template('test.html',data=similar_ids)  # Return the first 5 similar item IDs
 
 if __name__ == '__main__':
     app.run(debug=True)
