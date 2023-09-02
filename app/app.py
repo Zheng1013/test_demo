@@ -35,14 +35,23 @@ def report():
 @app.route('/recommed')
 def recommed():
         return render_template('recommed.html')
-    
+
 @app.route('/test',methods=['POST'])
 def test(): 
     if request.method == 'POST':
         item_id = request.form['itemId']
         item_id = int(item_id)
         similar_ids = model.knn_model(item_id)
-        return render_template('test.html',data=similar_ids) 
+        return render_template('test.html',respones=similar_ids) 
+
+# @app.route('/test',methods=['POST'])
+# def test(): 
+#     if request.method == 'POST':
+#         data = request.get_json()
+#         item_id = data.get('item_id')
+#         item_id = int(item_id)
+#         similar_ids = model.knn_model(item_id)
+#         return render_template('test.html',respones=similar_ids) 
 
 #--------登錄系統-------
 
