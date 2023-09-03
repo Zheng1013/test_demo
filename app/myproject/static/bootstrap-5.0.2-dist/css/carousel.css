@@ -1,0 +1,70 @@
+.wrapper {
+    width: 800px;
+    height: 400px;
+    background-color: black;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide-imgs {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    left: 0;
+    width: 4000px;
+}
+
+.slide-imgs li {
+    width: 800px;
+    height: 400px;
+
+}
+
+.slide-imgs li img {
+    width: 100%;
+    height: 100%;
+    /*自動調整比例*/
+    object-fit: cover;
+}
+
+.pages {
+    position: absolute;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    bottom: 10px;
+    width: 100%;
+    /*次軸置中*/
+    justify-content: center;
+}
+
+.pages li {
+    border: 1px solid white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0 5px;
+
+}
+
+.slide-arrow {
+    position: absolute;
+    z-index: 1;
+    /* background-color: red; */
+    font-size: 36px;
+    width: 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    opacity: .6;
+    cursor: pointer;
+}
+
+.right {
+    right: 0;
+}

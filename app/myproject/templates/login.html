@@ -1,0 +1,30 @@
+{% include "parts/navbar.html" %}
+<script src="{{url_for('static',filename='bootstrap-5.0.2-dist/js/bootstrap.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static',filename='bootstrap-5.0.2-dist/css/bootstrap.css')}}">
+<style>
+    .form-group {
+        margin-top: 20px;
+        font-size: 24px;
+    }
+</style>
+<div style="width: 80%; margin: auto; margin-top: 50px;">
+    {% block title %}首頁 ｜Login Exp{% endblock %}
+    {% block page_content %}
+
+    <form method="POST">
+        {# This hidden_tag is a CSRF security feature. #}
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.email.label }}
+            {{ form.email(class_="form-control form-control-lg") }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class_="form-control form-control-lg") }}
+        </div>
+        <br>
+        {{form.submit(class_="btn btn-primary btn-lg")}}
+    </form>
+</div>
+{% include "parts/footer.html" %}
+{% endblock page_content%}
