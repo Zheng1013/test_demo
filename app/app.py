@@ -6,9 +6,8 @@ from myproject.forms import LoginForm, RegistrationForm
 from flask import Flask
 import pymysql
 import os
-import knn_model.knn as model
-import knn_model.serch as serch
 from pathlib import Path
+from knn_model import knn , serch 
 
 
 #---連線DATABASE---
@@ -22,7 +21,16 @@ from pathlib import Path
 
 @app.route('/')
 def index():
-    return render_template('base.html')
+    image_root = '../static/images/'
+    ids , prod , graphical = serch.carousel()
+    image_paths = []
+    for id in ids:
+        subfolder = "0" + str(id)[:2]
+        # 商品圖片完整路径
+        image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
+        image_paths.append(image_path)
+        base_data = zip(ids,image_paths,prod,graphical)
+    return render_template('base.html',base_data=base_data)
 
 
 @app.route('/home')
@@ -41,14 +49,15 @@ def recommed():
 
 
 #  image_root 需要根據圖片檔位置修改
-image_root = '../static/images/'
+
 
 @app.route('/test',methods=['POST'])
-def test(): 
+def test():
+    image_root = '../static/images/'
     if request.method == 'POST':
         item_id = request.form['itemId']
         item_id = int(item_id)
-        similar_ids = model.knn_model(item_id)
+        similar_ids = knn.knn_model(item_id)
         prod , grap= serch.serch_article(similar_ids)
         # 創建列表，儲存每個ID對應的圖片路徑
         image_paths = []
