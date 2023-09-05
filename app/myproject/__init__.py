@@ -8,7 +8,7 @@ from flask_login import LoginManager
 app = Flask(__name__)
 
 app.config['SECRET_KEY']= 'acretkeyinthisproject'
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost:3306/data"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:a22897051@localhost:3306/data"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

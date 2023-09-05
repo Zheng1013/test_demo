@@ -8,8 +8,6 @@
 </style>
 
 <div style="width: 80%; margin: auto; margin-top: 50px;">
-    {% block title %}首頁 ｜Login Exp{% endblock %}
-    {% block page_content %}
 
     <form method="POST">
         {{ form.hidden_tag() }}
@@ -34,4 +32,3 @@
     </form>
 </div>
 {% include "parts/footer.html" %}
-{% endblock page_content%}

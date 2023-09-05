@@ -1,1 +1,13 @@
-<h3>{{current_user.username}}，歡迎回來</h3>
+{% include "parts/navbar.html" %}
+<script src="{{url_for('static',filename='bootstrap-5.0.2-dist/js/bootstrap.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static',filename='bootstrap-5.0.2-dist/css/bootstrap.css')}}">
+<style>
+    .form-group {
+        margin-top: 20px;
+        font-size: 24px;
+    }
+</style>
+<div style="width: 80%; margin: auto; margin-top: 50px;">
+    <h3 class="form-group">{{current_user.username}}，歡迎回來</h3>
+</div>
+{% include "parts/footer.html" %}
