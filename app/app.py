@@ -48,6 +48,7 @@ def recommed():
         return render_template('recommed.html')
 
 
+
 #  image_root 需要根據圖片檔位置修改
 
 
