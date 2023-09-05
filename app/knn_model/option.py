@@ -15,5 +15,12 @@ def age(age_input):
     
     # index_group_name
     index_group_name_list = selected_df['index_group_name'].unique().tolist()
-    return index_group_name_list
+    return index_group_name_list , selected_df
 
+def product_index(input_product_index):
+    product_index = input_product_index
+    selected_df = selected_df.groupby('index_group_name').get_group(product_index)
+
+    # product_group_name
+    product_group_name_list = selected_df['product_group_name'].unique().tolist()
+    return product_group_name_list , selected_df

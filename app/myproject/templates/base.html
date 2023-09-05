@@ -152,11 +152,16 @@
                     <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
                     <input type="text" class="form-control" id="user_input">
                 </div>
-                <select class="form-select" id="selectMenu">
+
+                <select class="form-select" id="ageMenu">
                     <option value="loading">loading..</option>
-                  </select>
+                </select>
+
+                <select class="form-select" id="indexMenu">
+                    <option value="loading">loading..</option>
+                </select>
             </div>
-        <div class="clearfix"></div>
+
         <div class="featured-items">
             <div class="container">
                 <div class="row">
@@ -186,12 +191,13 @@
     </div>
     {% include "parts/footer.html" %}
     <script>
+        // 收集使用者input的age,回傳到伺服器
         async function updateOptions() {
             const userInput = document.getElementById("user_input").value;
-            const selectMenu = document.getElementById("selectMenu");
+            const ageMenu = document.getElementById("ageMenu");
 
-            // 向 Flask 后端发送 POST 请求，传递用户输入
-            const response = await fetch('/get_options', {
+            // 向Flask後端發送POST请求，傳遞使用者输入
+            const response = await fetch('/get_age', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -203,19 +209,19 @@
                 const data = await response.json();
                 const options = data.options;
 
-                // 清空下拉菜单
-                selectMenu.innerHTML = "";
+                // 清空下拉選單
+                ageMenu.innerHTML = "";
 
-                // 添加新选项
+                // 添加選項
                 options.forEach(option => {
                     const optionElement = document.createElement("option");
                     optionElement.value = option;
                     optionElement.textContent = option;
-                    selectMenu.appendChild(optionElement);
+                    ageMenu.appendChild(optionElement);
                 });
             }
         }
-        // 监听用户按下"Enter"键
+        // 監聽使用者按下"Enter"時觸發
         document.getElementById("user_input").addEventListener("keyup", function(event) {
             if (event.key === "Enter") {
                 updateOptions();
@@ -225,13 +231,13 @@
 
     <script>
         function sendForm(itemId) {
-            // 创建一个隐藏的表单元素
+            // 創建一個隱藏的表單元素
             var form = $('<form action="/test" method="POST"></form>');
-            // 创建一个隐藏的输入字段，将数据放入其中
+            // 創建一個隱藏的輸入，將數據放入
             var input = $('<input type="hidden" name="itemId" value="' + itemId + '">');
-            // 将输入字段添加到表单中
+            // 將輸入添加到表單中
             form.append(input);
-            // 将表单添加到页面中并模拟提交
+            // 將表單添加到頁面中並模擬提交
             form.appendTo('body').submit();
         }
     </script>
