@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash, abort
+from flask import render_template, redirect, request, url_for, flash, abort , jsonify
 from flask_login import login_user, logout_user, login_required
 from myproject import app, db
 from myproject.models import User
@@ -7,20 +7,11 @@ from flask import Flask
 import pymysql
 import os
 from pathlib import Path
-from knn_model import knn , serch 
-
-
-#---連線DATABASE---
-
-
-
-
-#---框架---
-
-
+from knn_model import knn , serch , option
 
 @app.route('/')
 def index():
+    #  image_root 需要根據圖片檔位置修改
     image_root = '../static/images/'
     ids , prod , graphical = serch.carousel()
     image_paths = []
@@ -31,6 +22,12 @@ def index():
         image_paths.append(image_path)
         base_data = zip(ids,image_paths,prod,graphical)
     return render_template('base.html',base_data=base_data)
+
+@app.route('/get_age',methods=['POST'])
+def get_age():
+    age_input = int(request.json.get('age_input', '0'))
+    group_name_list = option.age(age_input)
+    return jsonify({'options':group_name_list})
 
 
 @app.route('/home')
@@ -45,11 +42,7 @@ def report():
 
 @app.route('/recommed')
 def recommed():
-        return render_template('recommed.html')
-
-
-#  image_root 需要根據圖片檔位置修改
-
+    return render_template('recommed.html')
 
 @app.route('/test',methods=['POST'])
 def test():

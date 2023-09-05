@@ -126,6 +126,17 @@
             max-width: 100%;
             height: 70px;
         }
+
+        .option-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            /* 商品之间的间距，根据需要调整 */
+            max-width: 1800px;
+            /* 最大宽度，根据需要调整 */
+            margin: 50px auto;
+        }
     </style>
 </head>
 
@@ -136,30 +147,15 @@
         </div>
         <div class="banner"></div>
         <label></label>
-        <form action="/">
-            <div style="float: left; margin-left: 350px;">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                    style="width: 300px;">
-                    <option selected>age</option>
-                    <option value="1">16-22</option>
-                    <option value="2">22-40</option>
-                    <option value="3">40-65</option>
-                    <option value="4">65up</option>
-                </select>
+            <div style="width: calc(25%); padding: 10px;">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
+                    <input type="text" class="form-control" id="user_input">
+                </div>
+                <select class="form-select" id="selectMenu">
+                    <option value="loading">loading..</option>
+                  </select>
             </div>
-            <div style="float: left; margin-left: 50px;">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                    style="width: 300px;">
-                    <option selected>商品類別</option>
-                    <option value="Ladieswear">Ladieswear</option>
-                    <option value="Divided">Divided</option>
-                    <option value="Menswear">Menswear</option>
-                    <option value="Baby/Children">Baby/Children</option>
-                    <option value="Sport">Sport</option>
-                </select>
-            </div>
-            <button style="float: left; margin-left: 50px;" type="submit" class="btn btn-primary btn-lg">search</button>
-        </form>
         <div class="clearfix"></div>
         <div class="featured-items">
             <div class="container">
@@ -177,7 +173,8 @@
                                 <img src="{{url}}" alt="Item 1">
                                 <h4>商品名稱 : {{ prod }}</h4>
                                 <h6>外觀 : {{ graphical}}</h6>
-                                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;" onclick="sendForm('{{ id }}')">商品推薦</button>
+                                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                                    onclick="sendForm('{{ id }}')">商品推薦</button>
                             </div>
                             {% endfor %}
                         </div>
@@ -189,21 +186,55 @@
     </div>
     {% include "parts/footer.html" %}
     <script>
+        async function updateOptions() {
+            const userInput = document.getElementById("user_input").value;
+            const selectMenu = document.getElementById("selectMenu");
+
+            // 向 Flask 后端发送 POST 请求，传递用户输入
+            const response = await fetch('/get_options', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'age_input': userInput })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const options = data.options;
+
+                // 清空下拉菜单
+                selectMenu.innerHTML = "";
+
+                // 添加新选项
+                options.forEach(option => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    selectMenu.appendChild(optionElement);
+                });
+            }
+        }
+        // 监听用户按下"Enter"键
+        document.getElementById("user_input").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                updateOptions();
+            }
+        });
+    </script>
+
+    <script>
         function sendForm(itemId) {
-    
             // 创建一个隐藏的表单元素
             var form = $('<form action="/test" method="POST"></form>');
-    
             // 创建一个隐藏的输入字段，将数据放入其中
             var input = $('<input type="hidden" name="itemId" value="' + itemId + '">');
-    
             // 将输入字段添加到表单中
             form.append(input);
-    
             // 将表单添加到页面中并模拟提交
             form.appendTo('body').submit();
         }
     </script>
-    
+
 
 </html>
