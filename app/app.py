@@ -9,6 +9,8 @@ import os
 from pathlib import Path
 from knn_model import knn , serch , option
 
+dataframe = None
+
 @app.route('/')
 def index():
     #  image_root 需要根據圖片檔位置修改
@@ -25,9 +27,29 @@ def index():
 
 @app.route('/get_age',methods=['POST'])
 def get_age():
+    global dataframe
     age_input = int(request.json.get('age_input', '0'))
-    group_name_list = option.age(age_input)
+    group_name_list , age_df = option.age(age_input)
+    dataframe = age_df
     return jsonify({'options':group_name_list})
+
+@app.route('/product_index',methods=['POST'])
+def product_index():
+    global dataframe
+    age_df = dataframe
+    index_input = str(request.json.get('ageMenu', '0'))
+    group_name_list , index_df = option.product_index(index_input,age_df)
+    dataframe = index_df
+    return jsonify({'options':group_name_list})
+
+@app.route('/product_group',methods=['POST'])
+def product_group():
+    global dataframe
+    index_df = dataframe
+    group_input = str(request.json.get('indexMenu', '0'))
+    group_type_list , group_df = option.product_group(group_input,index_df)
+    dataframe = group_df
+    return jsonify({'options':group_type_list})
 
 
 @app.route('/home')

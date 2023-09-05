@@ -147,16 +147,25 @@
         </div>
         <div class="banner"></div>
         <label></label>
-            <div style="width: calc(25%); padding: 10px;">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
-                    <input type="text" class="form-control" id="user_input">
-                </div>
-                <select class="form-select" id="selectMenu">
-                    <option value="loading">loading..</option>
-                  </select>
+        <div style="width: calc(25%); padding: 10px;">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
+                <input type="number" class="form-control" id="user_input" step="1" placeholder="輸入後請按Enter">
             </div>
-        <div class="clearfix"></div>
+
+            <select class="form-select" id="ageMenu">
+                <option value="loading">請先輸入年紀</option>
+            </select>
+
+            <select class="form-select" id="indexMenu">
+                <option value="loading">請先選擇商品類別</option>
+            </select>
+
+            <select class="form-select" id="groupMenu">
+                <option value="loading">loading..</option>
+            </select>
+        </div>
+
         <div class="featured-items">
             <div class="container">
                 <div class="row">
@@ -185,13 +194,15 @@
 
     </div>
     {% include "parts/footer.html" %}
-    <script>
-        async function updateOptions() {
-            const userInput = document.getElementById("user_input").value;
-            const selectMenu = document.getElementById("selectMenu");
 
-            // 向 Flask 后端发送 POST 请求，传递用户输入
-            const response = await fetch('/get_options', {
+    <!-- 收集使用者input的age,回傳到伺服器,產生index選項-->
+    <script>
+        async function ageOptions() {
+            const userInput = document.getElementById("user_input").value;
+            const ageMenu = document.getElementById("ageMenu");
+
+            // 向Flask後端發送POST请求，傳遞使用者输入
+            const response = await fetch('/get_age', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -203,35 +214,199 @@
                 const data = await response.json();
                 const options = data.options;
 
-                // 清空下拉菜单
-                selectMenu.innerHTML = "";
+                // 清空下拉選單
+                ageMenu.innerHTML = "";
 
-                // 添加新选项
+                // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
+                const defaultOption = document.createElement("option");
+                // 設定默認選項為空
+                defaultOption.value = ""; 
+                // 設定默認選項顯示的內容
+                defaultOption.textContent = "請選擇一個選項";  
+                // 將默認選項添加到下拉選單的最前面
+                ageMenu.insertBefore(defaultOption, ageMenu.firstChild);
+
+                // 添加選項
                 options.forEach(option => {
                     const optionElement = document.createElement("option");
                     optionElement.value = option;
                     optionElement.textContent = option;
-                    selectMenu.appendChild(optionElement);
+                    ageMenu.appendChild(optionElement);
+                });
+                 
+
+            }
+        }
+        // 監聽使用者按下"Enter"時觸發
+        document.getElementById("user_input").addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+                ageOptions();
+            }
+        });
+
+        // 設定input提示字樣
+        document.getElementById("user_input").addEventListener("focus", function () {
+            document.getElementById("user_input").placeholder = "";
+        });
+
+        document.getElementById("user_input").addEventListener("blur", function () {
+            document.getElementById("user_input").placeholder = "輸入年紀後按Enter";
+        });
+        
+        // 業面加載時清空輸入框,將輸入框設置為空
+        function clearUserInput() {
+            var user_input = document.getElementById("user_input");
+            user_input.value = ""; 
+        }
+
+        window.onload = function () {
+            clearUserInput(); 
+        };
+
+    </script>
+
+    <!-- 根據選擇的index選項,產生group選項 -->
+    <script>
+        async function indexOptions() {
+            const ageMenu = document.getElementById("ageMenu").value;
+            const indexMenu = document.getElementById("indexMenu");
+
+            // 向Flask後端發送POST请求，傳遞使用者输入
+            const response = await fetch('/product_index', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'ageMenu': ageMenu })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const options = data.options;
+
+                // 清空下拉選單
+                indexMenu.innerHTML = "";
+                // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
+                const defaultOption = document.createElement("option");
+                // 設定默認選項為空
+                defaultOption.value = ""; 
+                // 設定默認選項顯示的內容
+                defaultOption.textContent = "請選擇一個選項";  
+                // 將默認選項添加到下拉選單的最前面
+                indexMenu.insertBefore(defaultOption, indexMenu.firstChild);
+                
+                // 添加選項
+                options.forEach(option => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    indexMenu.appendChild(optionElement);
                 });
             }
         }
-        // 监听用户按下"Enter"键
-        document.getElementById("user_input").addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                updateOptions();
-            }
-        });
+        // 監聽使用者改變ageMenu時觸發
+        document.getElementById("ageMenu").addEventListener("change", indexOptions
+        );
     </script>
+
+    <!-- 根據選擇的index選項,產生group option -->
+    <script>
+        async function groupOptions() {
+            const indexMenu = document.getElementById("indexMenu").value;
+            const groupMenu = document.getElementById("groupMenu");
+
+            // 向Flask後端發送POST请求，傳遞使用者输入
+            const response = await fetch('/product_group', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'indexMenu': indexMenu })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const options = data.options;
+
+                // 清空下拉選單
+                groupMenu.innerHTML = "";
+                // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
+                const defaultOption = document.createElement("option");
+                // 設定默認選項為空
+                defaultOption.value = ""; 
+                // 設定默認選項顯示的內容
+                defaultOption.textContent = "請選擇一個選項";  
+                // 將默認選項添加到下拉選單的最前面
+                groupMenu.insertBefore(defaultOption, groupMenu.firstChild);
+                
+
+                // 添加選項
+                options.forEach(option => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    groupMenu.appendChild(optionElement);
+                });
+            }
+        }
+        // 監聽使用者改變indexMenu時觸發
+        document.getElementById("indexMenu").addEventListener("change", groupOptions);
+    </script>
+
+    <!-- 根據選擇的group選項,產生type option -->
+    <script>
+        async function typeOptions() {
+            const indexMenu = document.getElementById("groupMenu").value;
+            const groupMenu = document.getElementById("typeMenu");
+
+            // 向Flask後端發送POST请求，傳遞使用者输入
+            const response = await fetch('/product_type', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'groupMenu': groupMenu })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const options = data.options;
+
+                // 清空下拉選單
+                typeMenu.innerHTML = "";
+                // 創建一個默認選項,以防使用者選擇第一個選項時,無法觸發change事件
+                const defaultOption = document.createElement("option");
+                // 設定默認選項為空
+                defaultOption.value = ""; 
+                // 設定默認選項顯示的內容
+                defaultOption.textContent = "請選擇一個選項";  
+                // 將默認選項添加到下拉選單的最前面
+                typeMenu.insertBefore(defaultOption, typeMenu.firstChild);
+                
+
+                // 添加選項
+                options.forEach(option => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    typeMenu.appendChild(optionElement);
+                });
+            }
+        }
+        // 監聽使用者改變indexMenu時觸發
+        document.getElementById("typeMenu").addEventListener("change", typeOptions);
+    </script>
+
 
     <script>
         function sendForm(itemId) {
-            // 创建一个隐藏的表单元素
+            // 創建一個隱藏的表單元素
             var form = $('<form action="/test" method="POST"></form>');
-            // 创建一个隐藏的输入字段，将数据放入其中
+            // 創建一個隱藏的輸入，將數據放入
             var input = $('<input type="hidden" name="itemId" value="' + itemId + '">');
-            // 将输入字段添加到表单中
+            // 將輸入添加到表單中
             form.append(input);
-            // 将表单添加到页面中并模拟提交
+            // 將表單添加到頁面中並模擬提交
             form.appendTo('body').submit();
         }
     </script>
