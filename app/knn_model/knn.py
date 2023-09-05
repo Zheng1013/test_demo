@@ -19,8 +19,11 @@ def knn_model(i):
     
     Recommender_item = []
     for ii in CF[0]:
-        if ii != i:
-            item=encode_articles[ii]
-            Recommender_item.append(item)
+        # if ii != i:
+        #     item=encode_articles[ii]
+        #     Recommender_item.append(item)
+        item=encode_articles[ii]
+        Recommender_item.append(item)
+    
     
     return Recommender_item

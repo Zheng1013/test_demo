@@ -16,62 +16,95 @@
     /* 图片容器的样式 */
     .image-container {
         display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px; /* 商品之间的间距，根据需要调整 */
-    max-width: 1200px; /* 最大宽度，根据需要调整 */
-    margin: 0 auto;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        /* 商品之间的间距，根据需要调整 */
+        max-width: 1800px;
+        /* 最大宽度，根据需要调整 */
+        margin: 50px auto;
     }
 
     /* 图片项目的样式 */
     .item {
-        width: calc(33.33% - 20px); /* 每行显示三个商品，并考虑到间距 */
-    padding: 20px;
-    background-color: #f0f0f0; /* 背景颜色，根据需要调整 */
-    border: 1px solid #ddd; /* 边框颜色和宽度，根据需要调整 */
-    text-align: center;
+        width: calc(20% - 20px);
+        /* 顯示5個商品,並保持等距 */
+        margin: 0 0 20px 0;
+        padding: 20px;
+        background-color: #f0f0f0;
+        /* 背景颜色，根据需要调整 */
+        border: 1px solid #ddd;
+        /* 边框颜色和宽度，根据需要调整 */
+        text-align: center;
+    }
+    .oneitem {
+        width: calc(50%);
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f0f0f0;
+        /* 背景颜色，根据需要调整 */
+        border: 1px solid #ddd;
+        /* 边框颜色和宽度，根据需要调整 */
+        text-align: center;
     }
 
-    /* 图片样式 */
+
+    /* 圖片樣式 */
     .item img {
         max-width: 100%;
-    height: auto;
-    padding-bottom: 10%; /* 保持图像容器的纵横比为1:1 */
-    position: relative;
-    overflow: hidden;
+        height: auto;
+        padding-bottom: 10%;
+        /* 保持图像容器的纵横比为1:1 */
+        position: relative;
+        overflow: hidden;
     }
+
     .title {
-    font-weight: bold;
-    padding: 10px;
-}
-.featured-item h4 {
-	font-size: 17px;
-	font-weight: 700;
-	color: #1e1e1e;
-	margin-top: 15px;
-	transition: all 0.5s;
-}
-.featured-item:hover h4 {
-	color: #3a8bcd;
-}
-.featured-item h6 {
-	font-size: 15px;
-	font-weight: 700;
-    
-	margin-bottom: 0px;
-}
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .featured-item h4 {
+        font-size: 17px;
+        font-weight: 700;
+        color: #1e1e1e;
+        margin-top: 15px;
+        transition: all 0.5s;
+    }
+
+    .featured-item:hover h4 {
+        color: #3a8bcd;
+    }
+
+    .featured-item h6 {
+        font-size: 15px;
+        font-weight: 700;
+
+        margin-bottom: 0px;
+    }
 </style>
 
 
 <div class="content">
+    {% for id, image_url , prod , grap in one_zip %}
+    <div class="oneitem">
+        <div class="featured-item" data-item-id="{{ id }}">
+            <img src="{{ image_url }}" alt="">
+            <h4>商品名稱 : {{ prod }}</h4>
+            <h6>外觀 : {{ grap}}</h6>
+        </div>
+    </div>
+    {% endfor %}
+
     <div class="image-container">
-        {% for id, image_url , prod , grap in zip_data %}
+        {% for id, image_url , prod , grap in five_zip %}
         <div class="item">
             <div class="featured-item" data-item-id="{{ id }}">
                 <img src="{{ image_url }}" alt="">
                 <h4>商品名稱 : {{ prod }}</h4>
                 <h6>外觀 : {{ grap}}</h6>
-                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;" onclick="sendForm('{{ id }}')">商品推薦</button>
+                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                    onclick="sendForm('{{ id }}')">商品推薦</button>
             </div>
         </div>
         {% endfor %}

@@ -66,8 +66,9 @@ def test():
             # 商品圖片完整路径
             image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
             image_paths.append(image_path)
-        combined = zip(similar_ids,image_paths,prod ,grap)
-        return render_template('recommed.html',zip_data=combined) 
+        one_zip = zip(similar_ids[:1],image_paths[:1],prod[:1] ,grap[:1])
+        five_zip= zip(similar_ids[1:],image_paths[1:],prod[1:] ,grap[1:])
+        return render_template('recommed.html',five_zip=five_zip,one_zip=one_zip)  
 
 
 #--------登錄系統-------
