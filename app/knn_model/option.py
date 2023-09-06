@@ -16,7 +16,6 @@ def age(age_input):
     age_df = df[(df['age'] <= top_limit) & (df['age'] >= bottom_limit)]
     
     # index_group_name
-<<<<<<< HEAD
     index_group_name_list = age_df['index_group_name'].unique().tolist()
     return index_group_name_list , age_df
 
@@ -46,15 +45,3 @@ def product_group(intput_product_group,index_df):
     # product_group_type
     product_group_type_list = selected_df['product_type_name'].unique().tolist()
     return product_group_type_list , selected_df
-=======
-    index_group_name_list = selected_df['index_group_name'].unique().tolist()
-    return index_group_name_list , selected_df
-
-def product_index(input_product_index):
-    product_index = input_product_index
-    selected_df = selected_df.groupby('index_group_name').get_group(product_index)
-
-    # product_group_name
-    product_group_name_list = selected_df['product_group_name'].unique().tolist()
-    return product_group_name_list , selected_df
->>>>>>> ed6ccc5ab428d987268e7b4e506df9a7890276eb

@@ -147,7 +147,6 @@
         </div>
         <div class="banner"></div>
         <label></label>
-<<<<<<< HEAD
         <div style="width: calc(25%); padding: 10px;">
             <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
@@ -167,23 +166,6 @@
             </select>
         </div>
 
-=======
-            <div style="width: calc(25%); padding: 10px;">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
-                    <input type="text" class="form-control" id="user_input">
-                </div>
-
-                <select class="form-select" id="ageMenu">
-                    <option value="loading">loading..</option>
-                </select>
-
-                <select class="form-select" id="indexMenu">
-                    <option value="loading">loading..</option>
-                </select>
-            </div>
-
->>>>>>> ed6ccc5ab428d987268e7b4e506df9a7890276eb
         <div class="featured-items">
             <div class="container">
                 <div class="row">
@@ -212,7 +194,6 @@
 
     </div>
     {% include "parts/footer.html" %}
-<<<<<<< HEAD
 
     <!-- 收集使用者input的age,回傳到伺服器,產生index選項-->
     <script>
@@ -220,14 +201,6 @@
             const userInput = document.getElementById("user_input").value;
             const ageMenu = document.getElementById("ageMenu");
 
-=======
-    <script>
-        // 收集使用者input的age,回傳到伺服器
-        async function updateOptions() {
-            const userInput = document.getElementById("user_input").value;
-            const ageMenu = document.getElementById("ageMenu");
-
->>>>>>> ed6ccc5ab428d987268e7b4e506df9a7890276eb
             // 向Flask後端發送POST请求，傳遞使用者输入
             const response = await fetch('/get_age', {
                 method: 'POST',
@@ -244,7 +217,6 @@
                 // 清空下拉選單
                 ageMenu.innerHTML = "";
 
-<<<<<<< HEAD
                 // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
                 const defaultOption = document.createElement("option");
                 // 設定默認選項為空
@@ -254,15 +226,12 @@
                 // 將默認選項添加到下拉選單的最前面
                 ageMenu.insertBefore(defaultOption, ageMenu.firstChild);
 
-=======
->>>>>>> ed6ccc5ab428d987268e7b4e506df9a7890276eb
                 // 添加選項
                 options.forEach(option => {
                     const optionElement = document.createElement("option");
                     optionElement.value = option;
                     optionElement.textContent = option;
                     ageMenu.appendChild(optionElement);
-<<<<<<< HEAD
                 });
                  
 
@@ -338,17 +307,6 @@
         // 監聽使用者改變ageMenu時觸發
         document.getElementById("ageMenu").addEventListener("change", indexOptions
         );
-=======
-                });
-            }
-        }
-        // 監聽使用者按下"Enter"時觸發
-        document.getElementById("user_input").addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                updateOptions();
-            }
-        });
->>>>>>> ed6ccc5ab428d987268e7b4e506df9a7890276eb
     </script>
 
     <!-- 根據選擇的index選項,產生group option -->
