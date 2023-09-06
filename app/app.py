@@ -29,6 +29,7 @@ def index():
 def get_age():
     global dataframe
     age_input = int(request.json.get('age_input', '0'))
+<<<<<<< HEAD
     group_name_list , age_df = option.age(age_input)
     dataframe = age_df
     return jsonify({'options':group_name_list})
@@ -50,6 +51,19 @@ def product_group():
     group_type_list , group_df = option.product_group(group_input,index_df)
     dataframe = group_df
     return jsonify({'options':group_type_list})
+=======
+    group_name_list , selected_df = option.age(age_input)
+    dataframe = selected_df
+    return jsonify({'options':group_name_list})
+
+# @app.route('/get_product_index',methods=['POST'])
+# def get_product_index():
+#     global dataframe
+#     age_input = int(request.json.get('age_input', '0'))
+#     group_name_list , selected_df = option.age(age_input)
+#     dataframe = selected_df
+#     return jsonify({'options':group_name_list})
+>>>>>>> ed6ccc5ab428d987268e7b4e506df9a7890276eb
 
 
 @app.route('/home')
