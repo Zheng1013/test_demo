@@ -25,29 +25,29 @@ def index():
         base_data = zip(ids,image_paths,prod,graphical)
     return render_template('base.html',base_data=base_data)
 
-@app.route('/get_age',methods=['POST'])
-def get_age():
+@app.route('/get_index',methods=['POST'])
+def get_index():
     global dataframe
     age_input = int(request.json.get('age_input', '0'))
-    group_name_list , age_df = option.age(age_input)
+    index_group_name_list , age_df = option.get_index(age_input)
     dataframe = age_df
-    return jsonify({'options':group_name_list})
+    return jsonify({'options':index_group_name_list})
 
-@app.route('/product_index',methods=['POST'])
-def product_index():
+@app.route('/get_group',methods=['POST'])
+def get_groupx():
     global dataframe
     age_df = dataframe
-    index_input = str(request.json.get('ageMenu', '0'))
-    group_name_list , index_df = option.product_index(index_input,age_df)
+    index_input = str(request.json.get('indexMenu', '0'))
+    product_group_name_list , index_df = option.get_group_list(index_input,age_df)
     dataframe = index_df
-    return jsonify({'options':group_name_list})
+    return jsonify({'options':product_group_name_list})
 
-@app.route('/product_group',methods=['POST'])
-def product_group():
+@app.route('/get_type',methods=['POST'])
+def get_type():
     global dataframe
     index_df = dataframe
-    group_input = str(request.json.get('indexMenu', '0'))
-    group_type_list , group_df = option.product_group(group_input,index_df)
+    group_input = str(request.json.get('groupMenu', '0'))
+    group_type_list , group_df = option.get_type_list(group_input,index_df)
     dataframe = group_df
     return jsonify({'options':group_type_list})
 

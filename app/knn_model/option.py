@@ -6,7 +6,7 @@ parquet_path = Path(__file__).resolve().parent / 'test2_2.parquet'
 
 #輸入年紀調用的function 
 
-def age(age_input):
+def get_index(age_input):
     df = pd.read_parquet(parquet_path)
     # age = int(input("Choose Your Age:"))
     age = age_input
@@ -21,7 +21,7 @@ def age(age_input):
 
 #輸入年紀後,選擇的product_index調用的function 
 
-def product_index(input_product_index,age_df):
+def get_group_list(input_product_index,age_df):
     product_index = input_product_index
     selected_df = age_df
 
@@ -33,11 +33,11 @@ def product_index(input_product_index,age_df):
 
 # 根據選擇的product_group調用的function
 
-def product_group(intput_product_group,index_df):
+def get_type_list(intput_product_group,index_df):
     product_group = intput_product_group
     selected_df = index_df 
 
-    if product_group != '':
+    if product_group != 'None':
         selected_df = selected_df.groupby('product_group_name').get_group(product_group)
     else:
         pass
