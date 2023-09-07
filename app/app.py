@@ -68,7 +68,7 @@ def get_image():
         image_paths.append(image_path)
     
     zip_top10 =  zip(ids,names,colors,types,volumes,image_paths)
-    return render_template('firstimg.html',zip_top10=zip_top10)
+    return render_template('recommed.html',zip_top10=zip_top10)
 
 @app.route('/home')
 def base():
