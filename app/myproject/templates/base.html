@@ -137,6 +137,10 @@
             /* 最大宽度，根据需要调整 */
             margin: 50px auto;
         }
+
+        .form-select {
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -151,7 +155,8 @@
         <div style="width: calc(25%); padding: 10px;">
             <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
-                <input type="number" class="form-control" aria-label="Sizing example input" id="age_input" step="1" placeholder="輸入後請按Enter">
+                <input type="number" class="form-control" aria-label="Sizing example input" id="age_input" step="1"
+                    placeholder="輸入後請按Enter">
             </div>
 
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="indexMenu">
@@ -163,15 +168,16 @@
             </select>
 
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="typeMenu">
-                <option value="loading">type</option>
+                <option value="" onchange="handleType()">type</option>
             </select>
 
             <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg">Color</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" id="color_input" placeholder="輸入後請按Enter">
+                <input type="text" class="form-control" aria-label="Sizing example input" id="color_input"
+                    placeholder="輸入後請按Enter" onkeyup="color_input(event)">
             </div>
 
-        
+
 
         </div>
 
@@ -229,9 +235,9 @@
                 // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
                 const defaultOption = document.createElement("option");
                 // 設定默認選項為空
-                defaultOption.value = ""; 
+                defaultOption.value = "";
                 // 設定默認選項顯示的內容
-                defaultOption.textContent = "請選擇一個選項";  
+                defaultOption.textContent = "請選擇一個選項";
                 // 將默認選項添加到下拉選單的最前面
                 indexMenu.insertBefore(defaultOption, indexMenu.firstChild);
 
@@ -242,7 +248,7 @@
                     optionElement.textContent = option;
                     indexMenu.appendChild(optionElement);
                 });
-                 
+
 
             }
         }
@@ -261,15 +267,15 @@
         document.getElementById("age_input").addEventListener("blur", function () {
             document.getElementById("age_input").placeholder = "輸入年紀後按Enter";
         });
-        
+
         // 業面加載時清空輸入框,將輸入框設置為空
         function clearUserInput() {
             var user_input = document.getElementById("age_input");
-            user_input.value = ""; 
+            user_input.value = "";
         }
 
         window.onload = function () {
-            clearUserInput(); 
+            clearUserInput();
         };
 
     </script>
@@ -286,7 +292,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 'indexMenu':indexMenu })
+                body: JSON.stringify({ 'indexMenu': indexMenu })
             });
 
             if (response.ok) {
@@ -298,12 +304,12 @@
                 // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
                 const defaultOption = document.createElement("option");
                 // 設定默認選項為空
-                defaultOption.value = ""; 
+                defaultOption.value = "";
                 // 設定默認選項顯示的內容
-                defaultOption.textContent = "請選擇一個選項";  
+                defaultOption.textContent = "請選擇一個選項";
                 // 將默認選項添加到下拉選單的最前面
                 groupMenu.insertBefore(defaultOption, groupMenu.firstChild);
-                
+
                 // 添加選項
                 options.forEach(option => {
                     const optionElement = document.createElement("option");
@@ -319,7 +325,7 @@
             }
         }
         // 監聽使用者改變indexMenu時觸發
-        document.getElementById("indexMenu").addEventListener("change",  groupOptions
+        document.getElementById("indexMenu").addEventListener("change", groupOptions
         );
     </script>
 
@@ -347,12 +353,12 @@
                 // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
                 const defaultOption = document.createElement("option");
                 // 設定默認選項為空
-                defaultOption.value = ""; 
+                defaultOption.value = "";
                 // 設定默認選項顯示的內容
-                defaultOption.textContent = "請選擇一個選項";  
+                defaultOption.textContent = "請選擇一個選項";
                 // 將默認選項添加到下拉選單的最前面
                 typeMenu.insertBefore(defaultOption, typeMenu.firstChild);
-                
+
 
                 // 添加選項
                 options.forEach(option => {
@@ -367,8 +373,38 @@
         document.getElementById("groupMenu").addEventListener("change", typeOptions);
     </script>
 
-    
+    <!-- 將選擇的type和輸入的type一起傳送到後端 -->
+    <script>
+        let typeSelect = "";
+        function handleType() {
+            typeSelect = document.getElementById('typeMenu').value;
+        };
 
+        function color_input(event) {
+            if (event.key == 'Enter') {
+                const color_input = document.getElementById("color_input").value;
+                // 檢查typeMenu是否有選值
+                if (typeSelect) {
+                    // 創建包含兩個值得對象
+                    const typeColorSend = {
+                        typeSelect: typeSelect,
+                        color_input: color_input
+                    };
+                    // 發送 AJAX 請求到後端 Flask
+                    fetch('/get_image', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(typeColorSend)
+                    })
+                };
+            };
+        };
+
+    </script>
+
+    <!-- 將選擇的圖片id傳送到後端伺服器 -->
     <script>
         function sendForm(itemId) {
             // 創建一個隱藏的表單元素
