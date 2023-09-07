@@ -55,8 +55,8 @@ def get_type():
 def get_image():
     global dataframe
     group_df = dataframe
-    type_input = str(request.json.get('typeSelect', '0'))
-    color_input = str(request.json.get('color_input', '0'))
+    type_input = request.form['typeSelect']
+    color_input = request.form['color_input']
     ids , names , colors ,types , volumes = option.get_article(type_input,color_input,group_df)
 
     image_root = '../static/images/'
@@ -66,9 +66,17 @@ def get_image():
         # 商品圖片完整路径
         image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
         image_paths.append(image_path)
-    
     zip_top10 =  zip(ids,names,colors,types,volumes,image_paths)
-    return render_template('recommed.html',zip_top10=zip_top10)
+
+    cids , cprod , cgraphical = serch.carousel()
+    cimage_paths = []
+    for cid in cids:
+        subfolder = "0" + str(cid)[:2]
+        # 商品圖片完整路径
+        cimage_path = image_root + f"{subfolder}"  + f"/0{cid}.jpg"
+        cimage_paths.append(cimage_path)
+        base_data = zip(cids,cimage_paths,cprod,cgraphical)
+    return render_template('base.html',zip_top10=zip_top10 ,base_data=base_data)
 
 @app.route('/home')
 def base():

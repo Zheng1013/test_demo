@@ -1,0 +1,463 @@
+{% include "parts/navbar.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&M</title>
+    <script src="../static/vendor/jquery/jquery.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Additional Scripts -->
+    <script src="../static/assets/js/custom.js"></script>
+    <script src="../static/assets/js/owl.js"></script>
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <!-- <link rel="stylesheet" href="assets/css/tooplate-main.css"> -->
+    <link rel="stylesheet" href="../static/assets/css/owl.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        /* Content container */
+        .content {
+            flex: 1;
+            padding-bottom: 60px;
+
+            /* Allow content to stretch and push footer to bottom */
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        .section-heading {
+            margin-top: 80px;
+            margin-bottom: 40px;
+        }
+
+        .section-heading .line-dec {
+            width: 30px;
+            height: 5px;
+            background-color: #3a8bcd;
+        }
+
+        .featured-items {
+            margin-bottom: 70px;
+        }
+
+        .featured-item {
+            border-radius: 5px;
+            border: 1px solid #eee;
+            padding: 20px;
+            transition: all 0.5s;
+        }
+
+        .featured-item:hover {
+            opacity: 0.9;
+        }
+
+        .featured-item img {
+            width: 100%;
+        }
+
+        .featured-item h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1e1e1e;
+            margin-top: 15px;
+            transition: all 0.5s;
+        }
+
+        .featured-item:hover h4 {
+            color: #3a8bcd;
+        }
+
+        .featured-item h6 {
+            color: #3a8bcd;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 0px;
+        }
+
+        .owl-theme .owl-dots {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .owl-theme .owl-dots .owl-dot {
+            outline: none;
+        }
+
+        .owl-theme .owl-dots .active span {
+            background-color: #3a8bcd !important;
+        }
+
+        .owl-theme .owl-dots .owl-dot span {
+            background-color: #aaa;
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+            margin: 0px 5px;
+            outline: none;
+        }
+
+        .banner {
+            margin-top: 20px;
+            background-image: url("../static/html_img/background.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            padding: 150px 0px;
+            background-position: center center;
+            height: 700px;
+        }
+
+        .ispan-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ispan {
+            margin-top: 20px;
+            max-width: 100%;
+            height: 70px;
+        }
+
+        .option-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            /* 商品之间的间距，根据需要调整 */
+            max-width: 1800px;
+            /* 最大宽度，根据需要调整 */
+            margin: 50px auto;
+        }
+
+        .form-select {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="ispan-container">
+            <img src="../static/html_img/ispan_logo.png" alt="" class="ispan">
+        </div>
+        <div class="banner"></div>
+        <label></label>
+
+        <div style="width: calc(25%); padding: 10px;">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
+                <input type="number" class="form-control" aria-label="Sizing example input" id="age_input" step="1"
+                    placeholder="輸入後請按Enter">
+            </div>
+
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="indexMenu">
+                <option value="loading">index</option>
+            </select>
+
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="groupMenu">
+                <option value="loading">group</option>
+            </select>
+
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="typeMenu">
+                <option value="" >type</option>
+            </select>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-text" id="inputGroup-sizing-lg">Color</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" id="color_input"
+                    placeholder="輸入後請按Enter">
+            </div>
+
+        </div>
+
+        <!-- {% for id, name ,color ,type ,volume ,url in zip_top10 %}
+        <div class="item">
+            <div class="featured-item" data-item-id="{{ id }}">
+                <img src="{{ url }}" alt="">
+                <h4> {{ name }}</h4>
+                <h6> {{ color}}</h6>
+                <h6> {{ type }}</h6>
+                <h6> {{ volume}}</h6>
+                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                    onclick="sendForm('{{ id }}')">商品推薦</button>
+            </div>
+        </div>
+        {% endfor %} -->
+
+        <div class="featured-items">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-heading">
+                            <div class="line-dec"></div>
+                            <h1>Product Items</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="owl-carousel owl-theme">
+                            {% for id,url,prod,graphical in base_data %}
+                            <div class="featured-item" data-item-id="{{id}}">
+                                <img src="{{url}}" alt="Item 1">
+                                <h4>商品名稱 : {{ prod }}</h4>
+                                <h6>外觀 : {{ graphical}}</h6>
+                                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                                    onclick="sendId('{{ id }}')">商品推薦</button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+
+    </div>
+    {% include "parts/footer.html" %}
+
+    <!-- 收集使用者input的age,回傳到伺服器,產生index選項-->
+    <script>
+        async function indexOptions() {
+            const age_input = document.getElementById("age_input").value;
+            const indexMenu = document.getElementById("indexMenu");
+
+            // 向Flask後端發送POST请求，傳遞使用者输入
+            const response = await fetch('/get_index', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'age_input': age_input })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const options = data.options;
+
+                // 清空下拉選單
+                indexMenu.innerHTML = "";
+
+                // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
+                const defaultOption = document.createElement("option");
+                // 設定默認選項為空
+                defaultOption.value = "";
+                // 設定默認選項顯示的內容
+                defaultOption.textContent = "請選擇一個選項";
+                // 將默認選項添加到下拉選單的最前面
+                indexMenu.insertBefore(defaultOption, indexMenu.firstChild);
+
+                // 添加選項
+                options.forEach(option => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    indexMenu.appendChild(optionElement);
+                });
+
+
+            }
+        }
+        // 監聽使用者輸入年紀按下"Enter"時觸發
+        document.getElementById("age_input").addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+                indexOptions();
+            }
+        });
+
+        // 設定input提示字樣
+        document.getElementById("age_input").addEventListener("focus", function () {
+            document.getElementById("age_input").placeholder = "";
+        });
+
+        document.getElementById("age_input").addEventListener("blur", function () {
+            document.getElementById("age_input").placeholder = "輸入年紀後按Enter";
+        });
+
+        // 業面加載時清空輸入框,將輸入框設置為空
+        function clearUserInput() {
+            var user_input = document.getElementById("age_input");
+            user_input.value = "";
+        }
+
+        window.onload = function () {
+            clearUserInput();
+        };
+
+    </script>
+
+    <!-- 根據選擇的index選項,產生group選項 -->
+    <script>
+        async function groupOptions() {
+            const indexMenu = document.getElementById("indexMenu").value;
+            const groupMenu = document.getElementById("groupMenu");
+
+            // 向Flask後端發送POST请求，傳遞使用者输入
+            const response = await fetch('/get_group', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'indexMenu': indexMenu })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const options = data.options;
+
+                // 清空下拉選單
+                groupMenu.innerHTML = "";
+                // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
+                const defaultOption = document.createElement("option");
+                // 設定默認選項為空
+                defaultOption.value = "";
+                // 設定默認選項顯示的內容
+                defaultOption.textContent = "請選擇一個選項";
+                // 將默認選項添加到下拉選單的最前面
+                groupMenu.insertBefore(defaultOption, groupMenu.firstChild);
+
+                const noneOption = document.createElement('option');
+                noneOption.value = 'None' ;
+                noneOption.text = 'Don\'t want to choose';
+                groupMenu.appendChild(noneOption) ;
+
+                // 添加選項
+                options.forEach(option => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    groupMenu.appendChild(optionElement);
+                });
+
+                
+            }
+        }
+        // 監聽使用者改變indexMenu時觸發
+        document.getElementById("indexMenu").addEventListener("change", groupOptions
+        );
+    </script>
+
+    <!-- 根據選擇的group選項,產生type option -->
+    <script>
+        async function typeOptions() {
+            const groupMenu = document.getElementById("groupMenu").value;
+            const typeMenu = document.getElementById("typeMenu");
+
+            // 向Flask後端發送POST请求，傳遞使用者输入
+            const response = await fetch('/get_type', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'groupMenu': groupMenu })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const options = data.options;
+
+                // 清空下拉選單
+                typeMenu.innerHTML = "";
+                // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
+                const defaultOption = document.createElement("option");
+                // 設定默認選項為空
+                defaultOption.value = "";
+                // 設定默認選項顯示的內容
+                defaultOption.textContent = "請選擇一個選項";
+                // 將默認選項添加到下拉選單的最前面
+                typeMenu.insertBefore(defaultOption, typeMenu.firstChild);
+
+                const noneOption = document.createElement('option');
+                noneOption.value = 'None' ;
+                noneOption.text = 'Don\'t want to choose';
+                typeMenu.appendChild(noneOption) ;
+
+
+                // 添加選項
+                options.forEach(option => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    typeMenu.appendChild(optionElement);
+                });
+            }
+        }
+        // 監聽使用者改變groupMenu時觸發
+        document.getElementById("groupMenu").addEventListener("change", typeOptions);
+    </script>
+
+
+    <!-- 將選擇的type和輸入的color一起傳送到後端 -->
+    <script>
+        
+    typeSelect = ""
+    color_input = ""
+
+    // 监听select元素的change事件
+    document.getElementById('typeMenu').addEventListener('change', function () {
+        typeSelect = document.getElementById('typeMenu').value
+    });
+
+    // 监听input元素的keyup事件
+    document.getElementById('color_input').addEventListener('keyup', function (event) {
+        if (event.key === 'Enter') {
+            color_input = document.getElementById('color_input').value
+            if(typeSelect !== ""){
+                send_Type_Color(); // 调用表单提交函数
+            } 
+        }
+    });
+
+    function send_Type_Color() {
+        // 创建一个隐藏的表单元素
+        var form = document.createElement('form');
+        form.action = "/get_image"; // 指定服务器端的路由
+        form.method = "POST"; // 使用POST方法提交
+
+        // 创建两个隐藏的输入字段，分别用于存储select和input的值
+        var typeInput = document.createElement('input');
+        typeInput.type = 'hidden';
+        typeInput.name = 'typeSelect';
+        typeInput.value = typeSelect;
+
+        var colorInput = document.createElement('input');
+        colorInput.type = 'hidden';
+        colorInput.name = 'color_input';
+        colorInput.value = color_input;
+
+        // 将输入字段添加到表单中
+        form.appendChild(typeInput);
+        form.appendChild(colorInput);
+
+        // 将表单添加到页面中并模拟提交
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    </script>
+
+
+    <!-- 將選擇的圖片id傳送到後端伺服器 -->
+    <script>
+        function sendId(itemId) {
+            // 創建一個隱藏的表單元素
+            var form = $('<form action="/test" method="POST"></form>');
+            // 創建一個隱藏的輸入，將數據放入
+            var input = $('<input type="hidden" name="itemId" value="' + itemId + '">');
+            // 將輸入添加到表單中
+            form.append(input);
+            // 將表單添加到頁面中並模擬提交
+            form.appendTo('body').submit();
+        }
+    </script>
+
+
+</html>

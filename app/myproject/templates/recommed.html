@@ -102,7 +102,7 @@
                 <h4>商品名稱 : {{ prod }}</h4>
                 <h6>外觀 : {{ grap}}</h6>
                 <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
-                    onclick="sendForm('{{ id }}')">商品推薦</button>
+                    onclick="sendId('{{ id }}')">商品推薦</button>
             </div>
         </div>
         {% endfor %}
@@ -110,24 +110,12 @@
 
 </div>
 
-        {% for id, name ,color ,type ,volume ,url in zip_top10 %}
-        <div class="item">
-            <div class="featured-item" data-item-id="{{ id }}">
-                <img src="{{ url }}" alt="">
-                <h4> {{ name }}</h4>
-                <h6> {{ color}}</h6>
-                <h6> {{ type }}</h6>
-                <h6> {{ volume}}</h6>
-                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
-                    onclick="sendForm('{{ id }}')">商品推薦</button>
-            </div>
-        </div>
-        {% endfor %}
+        
 
 {% include "parts/footer.html" %}
 
 <script>
-    function sendForm(itemId) {
+    function sendId(itemId) {
 
         // 创建一个隐藏的表单元素
         var form = $('<form action="/test" method="POST"></form>');
