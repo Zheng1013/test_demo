@@ -167,8 +167,8 @@
                 <option value="loading">group</option>
             </select>
 
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="typeMenu">
-                <option value="" onchange="handleType()">type</option>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="typeMenu" onchange="handleType()">
+                <option value="" >type</option>
             </select>
 
             <div class="input-group input-group-lg">
@@ -373,13 +373,15 @@
         document.getElementById("groupMenu").addEventListener("change", typeOptions);
     </script>
 
-    <!-- 將選擇的type和輸入的type一起傳送到後端 -->
+    <!-- 將選擇的type和輸入的color一起傳送到後端 -->
     <script>
         let typeSelect = "";
+
         function handleType() {
             typeSelect = document.getElementById('typeMenu').value;
+            
         };
-
+        
         function color_input(event) {
             if (event.key == 'Enter') {
                 const color_input = document.getElementById("color_input").value;
@@ -398,6 +400,13 @@
                         },
                         body: JSON.stringify(typeColorSend)
                     })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+                    // 重置选项
+                    typeSelect = "";
+                    document.getElementById("typeMenu").selectedIndex = 0;
                 };
             };
         };

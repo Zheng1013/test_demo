@@ -46,15 +46,19 @@ def get_type_list(intput_product_group,index_df):
     product_group_type_list = selected_df['product_type_name'].unique().tolist()
     return product_group_type_list , selected_df
 
-def get_article(input_type,userInput_color,selected_df):
+def get_article(input_type,userInput_color,input_selected_df):
+
     product_type = input_type
+    selected_df = input_selected_df
+
     if product_type != '':
         selected_df = selected_df.groupby('product_type_name').get_group(product_type)
     else:
         pass
-
+    
     # 顏色（選填）(Optional)Choose Colors:("space" for different colors, "_" for describing color)'
     color_inputing = userInput_color
+    
     if color_inputing != '':
         color_input = []
 
@@ -64,6 +68,7 @@ def get_article(input_type,userInput_color,selected_df):
             color_input.append(i)
 
         sdf_colors = np.array(selected_df['colour_group_name'].str.lower().unique().tolist())
+       
         same_colors = []
         for i in color_input:
             same_color = sdf_colors[sdf_colors == i]
@@ -71,7 +76,7 @@ def get_article(input_type,userInput_color,selected_df):
                 same_colors.append(same_color[0])
             except:
                 pass
-
+    
         if selected_df[selected_df['colour_group_name'].str.lower().isin(same_colors)].shape[0] == 0:
             pass
             #display(selected_df)
@@ -89,5 +94,12 @@ def get_article(input_type,userInput_color,selected_df):
     top10['Color'] = top10['Product'].str.split('_').str[-1]
     top10.drop(columns = ['Product'], inplace = True)
     top10 = top10[['article_id', 'Product Name', 'Color', 'Product Type', 'Sales Volume']]
-    return top10
 
+    top10_id = top10['article_id'].values.tolist()
+    top10_name = top10['Product Name'].values.tolist()
+    top10_color = top10['Color'].values.tolist()
+    top10_type = top10['Product Type'].values.tolist()
+    top10_volume = top10['Sales Volume'].values.tolist()
+
+
+    return  top10_id , top10_name ,top10_color ,top10_type,top10_volume

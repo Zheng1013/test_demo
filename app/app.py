@@ -51,14 +51,24 @@ def get_type():
     dataframe = group_df
     return jsonify({'options':group_type_list})
 
-@app.route('/get_image')
+@app.route('/get_image',methods=['POST'])
 def get_image():
     global dataframe
-    type_df = dataframe
+    group_df = dataframe
     type_input = str(request.json.get('typeSelect', '0'))
     color_input = str(request.json.get('color_input', '0'))
-    product = option.get_article(type_input,color_input,type_df)
-    return product
+    ids , names , colors ,types , volumes = option.get_article(type_input,color_input,group_df)
+
+    image_root = '../static/images/'
+    image_paths = []
+    for id in ids:
+        subfolder = "0" + str(id)[:2]
+        # 商品圖片完整路径
+        image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
+        image_paths.append(image_path)
+    
+    zip_top10 =  zip(ids,names,colors,types,volumes,image_paths)
+    return render_template('firstimg.html',zip_top10=zip_top10)
 
 @app.route('/home')
 def base():
