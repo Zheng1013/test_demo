@@ -1,25 +1,5 @@
 {% extends "parts/base.html" %}
 
-<script>window.addEventListener('DOMContentLoaded', (event) => {
-    // 在这里执行您的 JavaScript 代码
-});</script>
-
-
-
-
-<!-- 將選擇的圖片id傳送到後端伺服器 -->
-<script>
-    function sendId(itemId) {
-        // 創建一個隱藏的表單元素
-        var form = $('<form action="/test" method="POST"></form>');
-        // 創建一個隱藏的輸入，將數據放入
-        var input = $('<input type="hidden" name="itemId" value="' + itemId + '">');
-        // 將輸入添加到表單中
-        form.append(input);
-        // 將表單添加到頁面中並模擬提交
-        form.appendTo('body').submit();
-    }
-</script>
 
 {% block content %}
         <div class="ispan-container">
@@ -55,19 +35,22 @@
 
         </div>
 
-        {% for id, name ,color ,type ,volume ,url in zip_top10 %}
-        <div class="item">
-            <div class="featured-item" data-item-id="{{ id }}">
-                <img src="{{ url }}" alt="">
-                <h4> {{ name }}</h4>
-                <h6> {{ color}}</h6>
-                <h6> {{ type }}</h6>
-                <h6> {{ volume}}</h6>
-                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
-                    onclick="sendForm('{{ id }}')">商品推薦</button>
+
+        <div class="image-container">
+            {% for id, name ,color ,type ,volume ,url in zip_top10 %}
+            <div class="item">
+                <div class="featured-item" data-item-id="{{ id }}">
+                    <img src="{{ url }}" alt="">
+                    <h4> {{ name }}</h4>
+                    <h6> {{ color}}</h6>
+                    <h6> {{ type }}</h6>
+                    <h6> {{ volume}}</h6>
+                    <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                        onclick="sendId('{{ id }}')">商品推薦</button>
+                </div>
             </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
+        
 
        
 {% include "parts/carousel.html" %}

@@ -51,7 +51,7 @@ def get_article(input_type,userInput_color,input_selected_df):
     product_type = input_type
     selected_df = input_selected_df
 
-    if product_type != '':
+    if product_type != 'None':
         selected_df = selected_df.groupby('product_type_name').get_group(product_type)
     else:
         pass

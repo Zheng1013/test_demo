@@ -59,8 +59,10 @@
     }
     // 監聽使用者輸入年紀按下"Enter"時觸發
     document.getElementById("age_input").addEventListener("keyup", function (event) {
-        if (event.key === "Enter") {
-            indexOptions();
+        if (event.key == "Enter") {
+            if (document.getElementById("age_input").value !== "" ) { 
+                indexOptions();
+            }
         }
     });
 
@@ -72,16 +74,6 @@
     document.getElementById("age_input").addEventListener("blur", function () {
         document.getElementById("age_input").placeholder = "輸入年紀後按Enter";
     });
-
-    // 業面加載時清空輸入框,將輸入框設置為空
-    function clearUserInput() {
-        var user_input = document.getElementById("age_input");
-        user_input.value = "";
-    }
-
-    window.onload = function () {
-        clearUserInput();
-    };
 
 });
     
@@ -199,51 +191,51 @@
 
 <!-- 將選擇的type和輸入的color一起傳送到後端 -->
 <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', (event) => {
     // 在这里执行您的 JavaScript 代码
     typeSelect = ""
-color_input = ""
+    color_input = ""
 
-// 监听select元素的change事件
-document.getElementById('typeMenu').addEventListener('change', function () {
-    typeSelect = document.getElementById('typeMenu').value
-});
+    // 监听select元素的change事件
+    document.getElementById('typeMenu').addEventListener('change', function () {
+        typeSelect = document.getElementById('typeMenu').value
+    });
 
-// 监听input元素的keyup事件
-document.getElementById('color_input').addEventListener('keyup', function (event) {
-    if (event.key === 'Enter') {
-        color_input = document.getElementById('color_input').value
-        if(typeSelect !== ""){
-            send_Type_Color(); // 调用表单提交函数
-        } 
+    // 监听input元素的keyup事件
+    document.getElementById('color_input').addEventListener('keyup', function (event) {
+        if (event.key === 'Enter') {
+            color_input = document.getElementById('color_input').value
+            if(typeSelect !== ""){
+                send_Type_Color(); // 调用表单提交函数
+            } 
+        }
+    });
+
+    function send_Type_Color() {
+        // 创建一个隐藏的表单元素
+        var form = document.createElement('form');
+        form.action = "/"; // 指定服务器端的路由
+        form.method = "POST"; // 使用POST方法提交
+
+        // 创建两个隐藏的输入字段，分别用于存储select和input的值
+        var typeInput = document.createElement('input');
+        typeInput.type = 'hidden';
+        typeInput.name = 'typeSelect';
+        typeInput.value = typeSelect;
+
+        var colorInput = document.createElement('input');
+        colorInput.type = 'hidden';
+        colorInput.name = 'color_input';
+        colorInput.value = color_input;
+
+        // 将输入字段添加到表单中
+        form.appendChild(typeInput);
+        form.appendChild(colorInput);
+
+        // 将表单添加到页面中并模拟提交
+        document.body.appendChild(form);
+        form.submit();
     }
-});
-
-function send_Type_Color() {
-    // 创建一个隐藏的表单元素
-    var form = document.createElement('form');
-    form.action = "/get_image"; // 指定服务器端的路由
-    form.method = "POST"; // 使用POST方法提交
-
-    // 创建两个隐藏的输入字段，分别用于存储select和input的值
-    var typeInput = document.createElement('input');
-    typeInput.type = 'hidden';
-    typeInput.name = 'typeSelect';
-    typeInput.value = typeSelect;
-
-    var colorInput = document.createElement('input');
-    colorInput.type = 'hidden';
-    colorInput.name = 'color_input';
-    colorInput.value = color_input;
-
-    // 将输入字段添加到表单中
-    form.appendChild(typeInput);
-    form.appendChild(colorInput);
-
-    // 将表单添加到页面中并模拟提交
-    document.body.appendChild(form);
-    form.submit();
-}
 });
 
 
@@ -261,5 +253,21 @@ function send_Type_Color() {
         // 將表單添加到頁面中並模擬提交
         form.appendTo('body').submit();
     }
+</script>
+
+<script>
+    // 業面加載時清空輸入框,將輸入框設置為空
+    function clearUserInput() {
+        var age_input = document.getElementById("age_input");
+        age_input.value = "";
+
+        var color_input = document.getElementById("color_input");
+        color_input.value = "";
+
+    }
+
+    window.onload = function () {
+        clearUserInput();
+    };
 </script>
 

@@ -11,7 +11,7 @@ from knn_model import knn , serch , option
 
 dataframe = None
 
-@app.route('/')
+@app.route('/',methods=['GET','POST'])
 def index():
     #  image_root 需要根據圖片檔位置修改
     image_root = '../static/images/'
@@ -19,11 +19,29 @@ def index():
     image_paths = []
     for id in ids:
         subfolder = "0" + str(id)[:2]
-        # 商品圖片完整路径
+        # 輪播商品圖片完整路径
         image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
         image_paths.append(image_path)
         base_data = zip(ids,image_paths,prod,graphical)
-    return render_template('base.html',base_data=base_data)
+    if request.method == "GET":
+        return render_template('First_page.html',base_data=base_data)
+    
+    elif request.method == "POST":
+        global dataframe
+        group_df = dataframe
+        type_input = request.form['typeSelect']
+        color_input = request.form['color_input']
+        ids , names , colors ,types , volumes = option.get_article(type_input,color_input,group_df)
+
+        image_root = '../static/images/'
+        image_paths = []
+        for id in ids:
+            subfolder = "0" + str(id)[:2]
+            # top10 商品圖片完整路径
+            image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
+            image_paths.append(image_path)
+        zip_top10 =  zip(ids,names,colors,types,volumes,image_paths)
+        return render_template('First_page.html',zip_top10=zip_top10 ,base_data=base_data)
 
 @app.route('/get_index',methods=['POST'])
 def get_index():
@@ -51,32 +69,6 @@ def get_type():
     dataframe = group_df
     return jsonify({'options':group_type_list})
 
-@app.route('/get_image',methods=['POST'])
-def get_image():
-    global dataframe
-    group_df = dataframe
-    type_input = request.form['typeSelect']
-    color_input = request.form['color_input']
-    ids , names , colors ,types , volumes = option.get_article(type_input,color_input,group_df)
-
-    image_root = '../static/images/'
-    image_paths = []
-    for id in ids:
-        subfolder = "0" + str(id)[:2]
-        # 商品圖片完整路径
-        image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
-        image_paths.append(image_path)
-    zip_top10 =  zip(ids,names,colors,types,volumes,image_paths)
-
-    cids , cprod , cgraphical = serch.carousel()
-    cimage_paths = []
-    for cid in cids:
-        subfolder = "0" + str(cid)[:2]
-        # 商品圖片完整路径
-        cimage_path = image_root + f"{subfolder}"  + f"/0{cid}.jpg"
-        cimage_paths.append(cimage_path)
-        base_data = zip(cids,cimage_paths,cprod,cgraphical)
-    return render_template('base.html',zip_top10=zip_top10 ,base_data=base_data)
 
 @app.route('/home')
 def base():
