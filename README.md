@@ -1,3 +1,3 @@
 # test_demo
-如果有從kaggle載下H&M的圖片檔images,可以將圖片檔放在myproject/template/static 裡面
-首頁的下拉式選單要使用,需要將firstinput的parquet放在knn_model資料夾下
+#如果有從kaggle載下H&M的圖片檔images,可以將圖片檔放在myproject/template/static裡面
+#首頁的下拉式選單要使用,需要將firstinput的parquet放在knn_model資料夾下
