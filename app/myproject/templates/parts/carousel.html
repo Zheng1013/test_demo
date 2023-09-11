@@ -1,4 +1,69 @@
 {% block carousel %}
+<style>
+    .featured-items {
+        margin-bottom: 70px;
+    }
+
+    .featured-item {
+        border-radius: 10px;
+        border: 5px solid #eee;
+        padding: 20px;
+        transition: all 0.5s;
+    }
+
+    .featured-item:hover {
+        opacity: 0.9;
+    }
+
+    .featured-item img {
+        width: 100%;
+    }
+
+    .featured-item h4 {
+        font-family:'Times New Roman', Times, serif;
+        font-size: 17px;
+        font-weight: 700;
+        color: #1e1e1e;
+        margin-top: 15px;
+        transition: all 0.5s;
+        text-align: left;
+    }
+
+    .featured-item:hover h4 {
+        color:#3a8bcd;
+    }
+
+    .featured-item h6 {
+        color: black;
+        font-size: 15px;
+        font-weight: 700;
+        margin-top: 10px;
+        margin-bottom: 0px;
+        text-align: left;
+    }
+
+    .owl-theme .owl-dots {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .owl-theme .owl-dots .owl-dot {
+        outline: none;
+    }
+
+    .owl-theme .owl-dots .active span {
+        background-color: #3a8bcd !important;
+    }
+
+    .owl-theme .owl-dots .owl-dot span {
+        background-color: #aaa;
+        width: 8px;
+        height: 8px;
+        display: inline-block;
+        margin: 0px 5px;
+        outline: none;
+    }
+</style>
 
 <div class="featured-items">
     <div class="container">

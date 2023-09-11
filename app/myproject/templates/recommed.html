@@ -37,6 +37,7 @@
         /* 边框颜色和宽度，根据需要调整 */
         text-align: center;
     }
+
     /* 圖片樣式 */
     .item img {
         max-width: 100%;
@@ -47,6 +48,13 @@
         overflow: hidden;
     }
 
+    .one-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: auto;
+    }
+
     .oneitem {
         width: calc(50%);
         margin: 0 auto;
@@ -54,14 +62,16 @@
         background-color: #f0f0f0;
         /* 背景颜色，根据需要调整 */
         border: 1px solid #ddd;
+        border-radius: 10px;
         /* 边框颜色和宽度，根据需要调整 */
         text-align: center;
     }
+
     .oneitem img {
-    max-width: 100%;
-    max-height: 100%;
+        max-width: 100%;
+        max-height: 100%;
     }
-    
+
     .featured-item h4 {
         font-size: 17px;
         font-weight: 700;
@@ -77,30 +87,31 @@
     .featured-item h6 {
         font-size: 15px;
         font-weight: 700;
-
         margin-bottom: 0px;
     }
 </style>
 
 
 <div class="content">
-    {% for id, image_url , prod , grap in one_zip %}
-    <div class="oneitem">
-        <div class="featured-item" data-item-id="{{ id }}">
-            <img src="{{ image_url }}" alt="">
-            <h4>商品名稱 : {{ prod }}</h4>
-            <h6>外觀 : {{ grap}}</h6>
+    <div class="one-container">
+        {% for id, image_url , prod , grap in one_zip %}
+        <div class="oneitem">
+            <div class="featured-item" data-item-id="{{ id }}">
+                <img src="{{ image_url }}" alt="">
+                <h4>商品名稱 : {{ prod }}</h4>
+                <h6>外觀 : {{ grap}}</h6>
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 
     <div class="image-container">
         {% for id, image_url , prod , grap in five_zip %}
         <div class="item">
             <div class="featured-item" data-item-id="{{ id }}">
                 <img src="{{ image_url }}" alt="">
-                <h4>商品名稱 : {{ prod }}</h4>
-                <h6>外觀 : {{ grap}}</h6>
+                <h4 style="text-align: left;">商品名稱 : {{ prod }}</h4>
+                <h6 style="text-align: left;"> 外觀 : {{ grap}}</h6>
                 <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                     onclick="sendId('{{ id }}')">商品推薦</button>
             </div>
@@ -110,7 +121,7 @@
 
 </div>
 
-        
+
 
 {% include "parts/footer.html" %}
 

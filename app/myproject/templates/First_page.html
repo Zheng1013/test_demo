@@ -1,6 +1,7 @@
 {% extends "parts/base.html" %}
 
 
+
 {% block content %}
         <div class="ispan-container">
             <img src="../static/html_img/ispan_logo.png" alt="" class="ispan">
@@ -8,48 +9,49 @@
         <div class="banner"></div>
         <label></label>
 
-        <div style="width: calc(25%); padding: 10px;">
-            <div class="input-group input-group-lg">
+    <div class="d-flex justify-content-between align-items-center">
+       
+            <div class="input-group input-group-lg" style="margin-left: 10px;">
                 <span class="input-group-text" id="inputGroup-sizing-lg">Age</span>
                 <input type="number" class="form-control" aria-label="Sizing example input" id="age_input" step="1"
                     placeholder="輸入後請按Enter">
             </div>
 
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="indexMenu">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="indexMenu" style="margin-left: 10px;">
                 <option value="loading">index</option>
             </select>
 
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="groupMenu">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="groupMenu" style="margin-left: 10px;">
                 <option value="loading">group</option>
             </select>
 
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="typeMenu">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="typeMenu" style="margin-left: 10px;">
                 <option value="" >type</option>
             </select>
 
-            <div class="input-group input-group-lg">
+            <div class="input-group input-group-lg" style="margin: auto 10px;">
                 <span class="input-group-text" id="inputGroup-sizing-lg">Color</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" id="color_input"
                     placeholder="輸入後請按Enter">
             </div>
+    </div>
 
-        </div>
 
-
-        <div class="image-container">
+        <div class="image-container" >
             {% for id, name ,color ,type ,volume ,url in zip_top10 %}
             <div class="item">
                 <div class="featured-item" data-item-id="{{ id }}">
                     <img src="{{ url }}" alt="">
-                    <h4> {{ name }}</h4>
-                    <h6> {{ color}}</h6>
-                    <h6> {{ type }}</h6>
-                    <h6> {{ volume}}</h6>
+                    <h4> 商品名稱 : {{ name }}</h4>
+                    <h6> 顏色 : {{ color}}</h6>
+                    <h6> 商品類型 : {{ type }}</h6>
+                    <h6> 銷售數量 : {{ volume}}</h6>
                     <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                         onclick="sendId('{{ id }}')">商品推薦</button>
                 </div>
             </div>
             {% endfor %}
+        </div>
         
 
        

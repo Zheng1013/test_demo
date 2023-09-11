@@ -7,6 +7,7 @@
     .content {
         flex: 1;
         padding-bottom: 60px;
+        padding: 0;
 
         /* Allow content to stretch and push footer to bottom */
     }
@@ -24,66 +25,6 @@
         width: 30px;
         height: 5px;
         background-color: #3a8bcd;
-    }
-
-    .featured-items {
-        margin-bottom: 70px;
-    }
-
-    .featured-item {
-        border-radius: 5px;
-        border: 1px solid #eee;
-        padding: 20px;
-        transition: all 0.5s;
-    }
-
-    .featured-item:hover {
-        opacity: 0.9;
-    }
-
-    .featured-item img {
-        width: 100%;
-    }
-
-    .featured-item h4 {
-        font-size: 17px;
-        font-weight: 700;
-        color: #1e1e1e;
-        margin-top: 15px;
-        transition: all 0.5s;
-    }
-
-    .featured-item:hover h4 {
-        color: #3a8bcd;
-    }
-
-    .featured-item h6 {
-        color: #3a8bcd;
-        font-size: 15px;
-        font-weight: 700;
-        margin-bottom: 0px;
-    }
-
-    .owl-theme .owl-dots {
-        text-align: center;
-        margin-top: 30px;
-    }
-
-    .owl-theme .owl-dots .owl-dot {
-        outline: none;
-    }
-
-    .owl-theme .owl-dots .active span {
-        background-color: #3a8bcd !important;
-    }
-
-    .owl-theme .owl-dots .owl-dot span {
-        background-color: #aaa;
-        width: 8px;
-        height: 8px;
-        display: inline-block;
-        margin: 0px 5px;
-        outline: none;
     }
 
     .banner {
@@ -109,6 +50,45 @@
     }
 
     .form-select {
-        margin-top: 20px;
+        margin-top: 15px;
     }
+
+    /* 图片容器的样式 */
+    .image-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:center;
+        gap: 20px;
+        /* 商品之间的间距，根据需要调整 */
+        max-width: 1800px;
+        /* 最大宽度，根据需要调整 */
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    /* 图片项目的样式 */
+    .item {
+        width: calc(20% - 20px);
+        /* 顯示5個商品,並保持等距 */
+        margin: 0 0 20px 0;
+        padding: 20px;
+        background-color: #f0f0f0;
+        /* 背景颜色，根据需要调整 */
+        border: 5px solid #ddd;
+        border-radius: 10px;
+        /* 边框颜色和宽度，根据需要调整 */
+        text-align: center;
+    }
+
+    /* 圖片樣式 */
+    .item img {
+        max-width: 100%;
+        height: auto;
+        padding-bottom: 10%;
+        /* 保持图像容器的纵横比为1:1 */
+        position: relative;
+        overflow: hidden;
+    }
+
+    
 </style>

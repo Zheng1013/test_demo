@@ -15,7 +15,6 @@
 
 <!-- 收集使用者input的age,回傳到伺服器,產生index選項-->
 <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
     // 在这里执行您的 JavaScript 代码
     async function indexOptions() {
         const age_input = document.getElementById("age_input").value;
@@ -75,13 +74,11 @@
         document.getElementById("age_input").placeholder = "輸入年紀後按Enter";
     });
 
-});
     
 </script>
 
 <!-- 根據選擇的index選項,產生group選項 -->
 <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
     // 在这里执行您的 JavaScript 代码
     async function groupOptions() {
         const indexMenu = document.getElementById("indexMenu").value;
@@ -130,14 +127,12 @@
     // 監聽使用者改變indexMenu時觸發
     document.getElementById("indexMenu").addEventListener("change", groupOptions
     );
-});
 
     
 </script>
 
 <!-- 根據選擇的group選項,產生type option -->
 <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
     // 在这里执行您的 JavaScript 代码
      async function typeOptions() {
         const groupMenu = document.getElementById("groupMenu").value;
@@ -184,14 +179,13 @@
     }
     // 監聽使用者改變groupMenu時觸發
     document.getElementById("groupMenu").addEventListener("change", typeOptions);
-});
    
 </script>
 
 
 <!-- 將選擇的type和輸入的color一起傳送到後端 -->
 <script>
-window.addEventListener('DOMContentLoaded', (event) => {
+
     // 在这里执行您的 JavaScript 代码
     typeSelect = ""
     color_input = ""
@@ -236,7 +230,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.body.appendChild(form);
         form.submit();
     }
-});
+
 
 
 </script>
@@ -270,4 +264,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         clearUserInput();
     };
 </script>
+
+
+    
 

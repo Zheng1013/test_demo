@@ -5,15 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>H&M</title>
-    
+
     {% block style %}
     {% include "parts/style.html"%}
     {% endblock style %}
-    
-    
-    {% block script %}
-    {% include "parts/script.html" %}
-    {% endblock script %}
+
+
 
 </head>
 
@@ -22,11 +19,17 @@
     <div class="content">
         {% block content %}
 
-            
+
         {% include "parts/carousel.html" %}
-       {% endblock  content %}
+        {% endblock content %}
+
 
     </div>
     {% include "parts/footer.html" %}
+
+    {% block script %}
+    {% include "parts/script.html" %}
+    {% endblock script %}
+</body>
 
 </html>
