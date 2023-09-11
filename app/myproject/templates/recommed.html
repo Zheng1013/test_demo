@@ -114,6 +114,8 @@
                 <h6 style="text-align: left;"> 外觀 : {{ grap}}</h6>
                 <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                     onclick="sendId('{{ id }}')">商品推薦</button>
+                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                    onclick="myfavorite('{{ id }}')">加到最愛</button>
             </div>
         </div>
         {% endfor %}
@@ -141,3 +143,26 @@
         form.appendTo('body').submit();
     }
 </script>
+
+<!-- 加到最愛 -->
+
+<script>
+    function myfavorite(itemId) {
+        // 使用Ajax发送POST请求
+        $.ajax({
+            type: "POST",
+            url: "/add_to_favorite",
+            data: { item_id: itemId },
+            success: function(response) {
+                // 在成功响应时执行的操作
+                alert("商品已添加到最爱！");
+            },
+            error: function(error) {
+                // 在发生错误时执行的操作
+                alert("添加商品到最爱时出现错误：" + error);
+            }
+        });
+    }
+
+</script>
+

@@ -48,6 +48,8 @@
                     <h6> 銷售數量 : {{ volume}}</h6>
                     <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                         onclick="sendId('{{ id }}')">商品推薦</button>
+                    <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                        onclick="myfavorite('{{ id }}')">加到最愛</button>
                 </div>
             </div>
             {% endfor %}

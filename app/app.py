@@ -1,8 +1,9 @@
 from flask import render_template, redirect, request, url_for, flash, abort , jsonify
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, UserMixin, current_user
 from myproject import app, db
 from myproject.models import User
 from myproject.forms import LoginForm, RegistrationForm
+from myproject.click import Favorite
 from flask import Flask
 import pymysql
 import os
@@ -148,6 +149,19 @@ def welcome_user():
 
 #--------登錄系統end-------
 
+#--------加到最愛----------
+
+@app.route('/add_to_favorite', methods=['POST'])
+def add_to_favorite():
+    if current_user.is_authenticated:
+        item_id = request.form.get('item_id')  # 从POST请求中获取item_id
+        user_id = current_user.id  # 获取当前已登录用户的ID
+        favorite = Favorite(user_id=user_id, item_id=item_id)
+        db.session.add(favorite)
+        db.session.commit()
+        return jsonify(message="商品已添加到最爱！")
+    else:
+        return jsonify(message="您需要登录才能记录点击事件。"), 401  # 返回未授权状态码
 
 
 if __name__ == '__main__':
