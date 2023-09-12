@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    {% include "parts/navbar.html" %}
+{% extends "parts/base.html" %}
     <div id="app2">
         <div class="cart">
             <h2>购物车</h2>
@@ -23,24 +13,3 @@
             </ul>
         </div>
     </div> 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script>
-        const app2 = new Vue({
-            el: '#app2',
-            data: {
-                cartItems: [] // 用于存储购物车中的产品信息
-            }
-        });
-        // 使用Vue.js的事件系统监听自定义事件
-        app2.$root.$on('addToCart', (productInfo) => {
-            // 添加产品信息到购物车
-            app2.cartItems.push(productInfo);
-        });
-    </script>
-
-
-</body>
-
-</html>

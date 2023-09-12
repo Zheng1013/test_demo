@@ -1,5 +1,6 @@
 from flask import render_template, redirect, request, url_for, flash, abort , jsonify
 from flask_login import login_user, logout_user, login_required, UserMixin, current_user
+from flask_ngrok import run_with_ngrok
 from myproject import app, db
 from myproject.models import User
 from myproject.forms import LoginForm, RegistrationForm
@@ -185,3 +186,7 @@ def myfavorite():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+    # 使用ngrok註解app.run(debug=True),使用以下
+    # app.run()
+    # run_with_ngrok(app)
