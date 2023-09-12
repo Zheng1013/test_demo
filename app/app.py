@@ -4,12 +4,12 @@ from myproject import app, db
 from myproject.models import User
 from myproject.forms import LoginForm, RegistrationForm
 from myproject.click import Favorite
+from user_knn_model.user_userKNN  import knn_model
 from flask import Flask
 import pymysql
 import os
 from pathlib import Path
 from knn_model import knn , serch , option
-
 
 
 dataframe = None

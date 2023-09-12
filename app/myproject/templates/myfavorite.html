@@ -1,0 +1,25 @@
+{% include "parts/navbar.html" %}
+
+<head>
+    <title>我的最愛</title>
+</head>
+<body>
+    <h1>我的最愛</h1>
+    
+    <h2>最愛列表</h2>
+    <ul>
+        {% for favorite in favorites %}
+            <li>{{ favorite.item_id }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>推薦商品</h2>
+    <ul>
+        {% for recommandation in recommandations %}
+            <li>{{ recommandation }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+{% include "parts/footer.html" %}
