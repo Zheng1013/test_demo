@@ -12,6 +12,8 @@
 <!-- <link rel="stylesheet" href="assets/css/tooplate-main.css"> -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
 
 <!-- 收集使用者input的age,回傳到伺服器,產生index選項-->
 <script>
@@ -252,12 +254,60 @@
 <!-- 加到最愛 -->
 
 <script>
-    function myfavorite(itemId) {
+    const app = new Vue({
+        el: '.image-container', // 设置Vue实例的作用范围
+        data: {
+            cartItems: [] // 用于存储购物车中的产品信息
+        },
+        methods: {
+            addToCart(id,url,name,color,type) {
+                // 模拟产品信息
+                const productInfo = {
+                    id:id,
+                    url: url,
+                    name: name,
+                    color:color,
+                    type:type
+                    // 添加其他产品信息字段
+                };
+                console.log(productInfo)
+                // 触发自定义事件并传递产品信息
+                this.$root.$emit('addToCart', productInfo);
+                console.log('自定义事件 addToCart 已触发');
+            }
+        }
+    });
+
+    function myfavorite(id,url,name,color,type) {
+        app.addToCart(id,url,name,color,type)
         // 使用Ajax发送POST请求
         $.ajax({
             type: "POST",
             url: "/add_to_favorite",
-            data: { item_id: itemId },
+            data: { item_id: id },
+            success: function(response) {
+                // 在成功响应时执行的操作
+                alert("商品已添加到最爱！");
+            },
+            error: function(error) {
+                // 在发生错误时执行的操作
+                alert("添加商品到最爱时出现错误：" + error);
+            }
+        });
+    }
+</script>
+
+
+
+
+<!-- <script>
+    function myfavorite(id,url,name,color,type) {
+        app.addToCart(id,url,name,color,type)
+        // 使用Ajax发送POST请求
+        $.ajax({
+            type: "POST",
+            url: "/add_to_favorite",
+            data: { item_id: id },
             success: function(response) {
                 // 在成功响应时执行的操作
                 alert("商品已添加到最爱！");
@@ -269,7 +319,9 @@
         });
     }
 
-</script>
+</script> -->
+
+
 
 
 <script>

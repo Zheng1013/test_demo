@@ -49,11 +49,13 @@
                     <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                         onclick="sendId('{{ id }}')">商品推薦</button>
                     <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
-                        onclick="myfavorite('{{ id }}')">加到最愛</button>
+                        onclick=" myfavorite('{{ id }}', '{{ url }}', '{{ name }}', '{{ color }}', '{{ type }}')">加入購物車</button>
+                       
                 </div>
             </div>
             {% endfor %}
         </div>
+
         
 
        
