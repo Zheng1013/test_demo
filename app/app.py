@@ -10,6 +10,8 @@ import os
 from pathlib import Path
 from knn_model import knn , serch , option
 
+
+
 dataframe = None
 
 @app.route('/',methods=['GET','POST'])
@@ -162,6 +164,23 @@ def add_to_favorite():
         return jsonify(message="商品已添加到最爱！")
     else:
         return jsonify(message="您需要登录才能记录点击事件。"), 401  # 返回未授权状态码
+
+#--------我的最愛頁面
+@app.route('/myfavorite')
+@login_required  # 確保只有登錄的用戶可以訪問這個頁面
+def myfavorite():
+    # 在這裡，你需要根據當前已登錄用戶的ID查詢其最愛的商品
+    user_id = current_user.id
+    favorites = Favorite.query.filter_by(user_id=user_id).all()
+    
+    # 從Favorites中提取item_id
+    item_ids = [favorite.item_id for favorite in favorites]
+    
+    # 使用上述已訓練的KNN模型為這些item_id生成推薦
+    recommandations = knn_model(item_ids)
+    
+    # 返回myfavorite.html模板，將最愛列表和推薦商品傳遞給模板
+    return render_template('myfavorite.html', favorites=favorites, recommandations=recommandations)
 
 
 if __name__ == '__main__':
