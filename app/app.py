@@ -34,7 +34,7 @@ def index():
         group_df = dataframe
         type_input = request.form['typeSelect']
         color_input = request.form['color_input']
-        ids , names , colors ,types , volumes = option.get_article(type_input,color_input,group_df)
+        ids , names , colors ,types  = option.get_article(type_input,color_input,group_df)
 
         image_root = '../static/images/'
         image_paths = []
@@ -43,7 +43,7 @@ def index():
             # top10 商品圖片完整路径
             image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
             image_paths.append(image_path)
-        zip_top10 =  zip(ids,names,colors,types,volumes,image_paths)
+        zip_top10 =  zip(ids,names,colors,types,image_paths)
         return render_template('First_page.html',zip_top10=zip_top10 ,base_data=base_data)
 
 @app.route('/get_index',methods=['POST'])
@@ -183,15 +183,25 @@ def myfavorite():
     return render_template('myfavorite.html', favorites=favorites, recommandations=recommandations)
 
 cart = {
-    'totalItems': 0,
-    'cartItems': []
+    'cartItems': [],
+    'totalItems': 0
     }
 
 @app.route('/add_to_cart',methods=['POST'])
 def add_to_cart():
     data = request.get_json()
-    cart['totalItems'] += 1
-    cart['cartItems'].append(data)
+    already_exit = False
+    if cart['cartItems'] == []:
+        cart['cartItems'].append(data)
+        cart['totalItems'] += 1
+    else:
+        for item in cart['cartItems']:
+            if item['id'] == data['id']:
+                already_exit = True
+                break
+        if not already_exit:
+            cart['cartItems'].append(data)
+            cart['totalItems'] += 1          
     return jsonify(cart)
 
 

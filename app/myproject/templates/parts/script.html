@@ -254,8 +254,8 @@
 <!-- 加到最愛 -->
 
 <script>
-    function myfavorite(id, url, name, color, type) {
-        addToCart(id, url, name, color, type)
+    function myfavorite(id,  name, color, type) {
+        addToCart(id,  name, color, type)
         // 使用Ajax发送POST请求
         $.ajax({
             type: "POST",
@@ -263,24 +263,30 @@
             data: { item_id: id },
             success: function (response) {
                 // 在成功响应时执行的操作
-                alert("商品已添加到最爱！");
+                alert("商品已添加到購物車！");
             },
             error: function (error) {
                 // 在发生错误时执行的操作
-                alert("添加商品到最爱时出现错误：" + error);
+                alert("添加商品到購物車时出现错误：" + error);
             }
         });
     }
 </script>
 
 <script>
-    function addToCart(id, url, name, color, type) {
+    function addToCart(id,  name, color, type) {
         fetch('/add_to_cart', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id, url, name, color, type })
+            body: JSON.stringify({
+            id: id,
+            name: name,
+            color: color,
+            type: type,
+            quantity: 1  // 将 quantity 设置为 1
+        })
         })
             .then(response => response.json())
             .then(data => {
@@ -310,6 +316,7 @@
             <td>${item.name}</td>
             <td>${item.type}</td>
             <td>${item.color}</td>
+            <td>${item.quantity}</td>
             <td><a href="#" onclick="removeItem('${item.id}')">刪除<i class="fas fa-trash-alt"></i></a></td>
         `;
             table.appendChild(row);
@@ -317,26 +324,7 @@
     }
 </script>
 
-<script>
-    function removeItem(itemId) {
-    fetch('/remove_item', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ itemId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // 更新购物车图标上的徽章和下拉菜单中的商品列表
-        updateCartBadge(data.totalItems);
-        updateCartDropdown(data.cartItems);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-</script>
+
 
 <!-- <script>
     function myfavorite(id,url,name,color,type) {

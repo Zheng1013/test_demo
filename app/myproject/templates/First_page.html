@@ -38,18 +38,17 @@
 
 
         <div class="image-container" >
-            {% for id, name ,color ,type ,volume ,url in zip_top10 %}
+            {% for id, name ,color ,type  ,url in zip_top10 %}
             <div class="item">
                 <div class="featured-item" data-item-id="{{ id }}">
                     <img src="{{ url }}" alt="">
                     <h4> 商品名稱 : {{ name }}</h4>
                     <h6> 顏色 : {{ color}}</h6>
                     <h6> 商品類型 : {{ type }}</h6>
-                    <h6> 銷售數量 : {{ volume}}</h6>
                     <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                         onclick="sendId('{{ id }}')">商品推薦</button>
                     <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
-                        onclick=" myfavorite('{{ id }}', '{{ url }}', '{{ name }}', '{{ color }}', '{{ type }}')">加入購物車</button>
+                        onclick=" myfavorite('{{ id }}','{{ name }}', '{{ color }}', '{{ type }}')">加入購物車</button>
                        
                 </div>
             </div>

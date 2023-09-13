@@ -99,7 +99,7 @@ def get_article(input_type,userInput_color,input_selected_df):
     top10_name = top10['Product Name'].values.tolist()
     top10_color = top10['Color'].values.tolist()
     top10_type = top10['Product Type'].values.tolist()
-    top10_volume = top10['Sales Volume'].values.tolist()
+    
 
 
-    return  top10_id , top10_name ,top10_color ,top10_type,top10_volume
+    return  top10_id , top10_name ,top10_color ,top10_type
