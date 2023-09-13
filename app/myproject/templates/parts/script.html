@@ -61,7 +61,7 @@
     // 監聽使用者輸入年紀按下"Enter"時觸發
     document.getElementById("age_input").addEventListener("keyup", function (event) {
         if (event.key == "Enter") {
-            if (document.getElementById("age_input").value !== "" ) { 
+            if (document.getElementById("age_input").value !== "") {
                 indexOptions();
             }
         }
@@ -76,7 +76,7 @@
         document.getElementById("age_input").placeholder = "輸入年紀後按Enter";
     });
 
-    
+
 </script>
 
 <!-- 根據選擇的index選項,產生group選項 -->
@@ -111,9 +111,9 @@
             groupMenu.insertBefore(defaultOption, groupMenu.firstChild);
 
             const noneOption = document.createElement('option');
-            noneOption.value = 'None' ;
+            noneOption.value = 'None';
             noneOption.text = 'Don\'t want to choose';
-            groupMenu.appendChild(noneOption) ;
+            groupMenu.appendChild(noneOption);
 
             // 添加選項
             options.forEach(option => {
@@ -123,20 +123,20 @@
                 groupMenu.appendChild(optionElement);
             });
 
-            
+
         }
     }
     // 監聽使用者改變indexMenu時觸發
     document.getElementById("indexMenu").addEventListener("change", groupOptions
     );
 
-    
+
 </script>
 
 <!-- 根據選擇的group選項,產生type option -->
 <script>
     // 在这里执行您的 JavaScript 代码
-     async function typeOptions() {
+    async function typeOptions() {
         const groupMenu = document.getElementById("groupMenu").value;
         const typeMenu = document.getElementById("typeMenu");
 
@@ -165,9 +165,9 @@
             typeMenu.insertBefore(defaultOption, typeMenu.firstChild);
 
             const noneOption = document.createElement('option');
-            noneOption.value = 'None' ;
+            noneOption.value = 'None';
             noneOption.text = 'Don\'t want to choose';
-            typeMenu.appendChild(noneOption) ;
+            typeMenu.appendChild(noneOption);
 
 
             // 添加選項
@@ -181,7 +181,7 @@
     }
     // 監聽使用者改變groupMenu時觸發
     document.getElementById("groupMenu").addEventListener("change", typeOptions);
-   
+
 </script>
 
 
@@ -201,9 +201,9 @@
     document.getElementById('color_input').addEventListener('keyup', function (event) {
         if (event.key === 'Enter') {
             color_input = document.getElementById('color_input').value
-            if(typeSelect !== ""){
+            if (typeSelect !== "") {
                 send_Type_Color(); // 调用表单提交函数
-            } 
+            }
         }
     });
 
@@ -254,42 +254,18 @@
 <!-- 加到最愛 -->
 
 <script>
-    const app = new Vue({
-        el: '.image-container', // 设置Vue实例的作用范围
-        data: {
-            cartItems: [] // 用于存储购物车中的产品信息
-        },
-        methods: {
-            addToCart(id,url,name,color,type) {
-                // 模拟产品信息
-                const productInfo = {
-                    id:id,
-                    url: url,
-                    name: name,
-                    color:color,
-                    type:type
-                    // 添加其他产品信息字段
-                };
-                console.log(productInfo)
-                // 触发自定义事件并传递产品信息
-                this.$root.$emit('addToCart', productInfo);
-                console.log('自定义事件 addToCart 已触发');
-            }
-        }
-    });
-
-    function myfavorite(id,url,name,color,type) {
-        app.addToCart(id,url,name,color,type)
+    function myfavorite(id, url, name, color, type) {
+        addToCart(id, url, name, color, type)
         // 使用Ajax发送POST请求
         $.ajax({
             type: "POST",
             url: "/add_to_favorite",
             data: { item_id: id },
-            success: function(response) {
+            success: function (response) {
                 // 在成功响应时执行的操作
                 alert("商品已添加到最爱！");
             },
-            error: function(error) {
+            error: function (error) {
                 // 在发生错误时执行的操作
                 alert("添加商品到最爱时出现错误：" + error);
             }
@@ -297,8 +273,70 @@
     }
 </script>
 
+<script>
+    function addToCart(id, url, name, color, type) {
+        fetch('/add_to_cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id, url, name, color, type })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 更新购物车图标上的徽章和下拉菜单中的商品列表
+                updateCartBadge(data.totalItems);
+                updateCartDropdown(data.cartItems);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
+    function updateCartBadge(totalItems) {
+        // 更新购物车图标上的徽章
+        const badge = document.querySelector('.badge');
+        badge.textContent = totalItems;
+    }
 
+    function updateCartDropdown(cartItems) {
+        // 更新下拉菜单中的商品列表
+        const table = document.querySelector('.table tbody');
+        table.innerHTML = ''; // 清空原有内容
+        cartItems.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td><a href="#"><i class="fas fa-trash-alt"></i></a></td>
+            <td>${item.name}</td>
+            <td>${item.type}</td>
+            <td>${item.color}</td>
+            <td><a href="#" onclick="removeItem('${item.id}')">刪除<i class="fas fa-trash-alt"></i></a></td>
+        `;
+            table.appendChild(row);
+        });
+    }
+</script>
+
+<script>
+    function removeItem(itemId) {
+    fetch('/remove_item', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itemId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 更新购物车图标上的徽章和下拉菜单中的商品列表
+        updateCartBadge(data.totalItems);
+        updateCartDropdown(data.cartItems);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
 
 <!-- <script>
     function myfavorite(id,url,name,color,type) {
@@ -339,4 +377,3 @@
         clearUserInput();
     };
 </script>
-

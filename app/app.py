@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash, abort , jsonify
+from flask import render_template, redirect, request, url_for, flash, abort , jsonify ,session
 from flask_login import login_user, logout_user, login_required, UserMixin, current_user
 from flask_ngrok import run_with_ngrok
 from myproject import app, db
@@ -11,7 +11,6 @@ import pymysql
 import os
 from pathlib import Path
 from knn_model import knn , serch , option
-
 
 dataframe = None
 
@@ -152,7 +151,7 @@ def welcome_user():
 
 #--------登錄系統end-------
 
-#--------加到最愛----------
+#--------加到購物車----------
 
 @app.route('/add_to_favorite', methods=['POST'])
 def add_to_favorite():
@@ -182,6 +181,18 @@ def myfavorite():
     
     # 返回myfavorite.html模板，將最愛列表和推薦商品傳遞給模板
     return render_template('myfavorite.html', favorites=favorites, recommandations=recommandations)
+
+cart = {
+    'totalItems': 0,
+    'cartItems': []
+    }
+
+@app.route('/add_to_cart',methods=['POST'])
+def add_to_cart():
+    data = request.get_json()
+    cart['totalItems'] += 1
+    cart['cartItems'].append(data)
+    return jsonify(cart)
 
 
 if __name__ == '__main__':

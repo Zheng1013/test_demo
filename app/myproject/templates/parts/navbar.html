@@ -2,6 +2,19 @@
 <script src="../static/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
 <link rel="icon" href="{{ url_for('static', filename='html_img/logo.png') }}" type="image/x-icon">
 
+<style>
+    .cart-icon {
+        width: 24px;
+        /* 设置图像的宽度，使其与 Font Awesome 图标相同 */
+        height: 24px;
+        /* 设置图像的高度，使其与 Font Awesome 图标相同 */
+        vertical-align: middle;
+        /* 垂直居中对齐 */
+        margin-right: 5px;
+        /* 可根据需要调整图像与文字之间的间距 */
+    }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand active" href="{{url_for('index')}}">H&M</a>
@@ -37,6 +50,31 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+            <div class="dropdown ml-auto">
+                <button class="btn btn-cart" data-toggle="dropdown">
+                    <img src="{{ url_for('static', filename='html_img/cart.png') }}" alt="購物車" class="cart-icon">
+                    <span class="badge badge-pill badge-danger">12</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuReference"
+                    style="min-width:400px;">
+                    <div class="px-4 py-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">商品名稱</th>
+                                    <th scope="col">類型</th>
+                                    <th scope="col">顏色</th>
+                                    <th scope="col">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <a href="#" class="btn btn-primary btn-block"> 結帳去</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
