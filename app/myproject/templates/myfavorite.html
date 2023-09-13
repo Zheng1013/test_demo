@@ -1,5 +1,12 @@
 {% include "parts/navbar.html" %}
-
+<html>
+<style>
+    /* 樣式可以根據需要自行調整 */
+    .item {
+        display: inline-block;
+        margin: 10px;
+    }
+</style>
 <head>
     <title>我的最愛</title>
 </head>
@@ -7,18 +14,18 @@
     <h1>我的最愛</h1>
     
     <h2>最愛列表</h2>
-    <ul>
+    <div class="item">
         {% for favorite in favorites %}
-            <li>{{ favorite.item_id }}</li>
+            <img src="{{ url_for('get_item_image', item_id=favorite.item_id) }}" alt="{{ favorite.item_id }}">
         {% endfor %}
-    </ul>
+    </div>
     
     <h2>推薦商品</h2>
-    <ul>
+    <div class="item">
         {% for recommandation in recommandations %}
-            <li>{{ recommandation }}</li>
+            <img src="{{ url_for('get_item_image', item_id=recommandation) }}" alt="{{ recommandation }}">
         {% endfor %}
-    </ul>
+    </div>
 </body>
 </html>
 
