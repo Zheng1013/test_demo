@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash, abort , jsonify
+from flask import render_template, redirect, request, url_for, flash, abort , jsonify, send_file
 from flask_login import login_user, logout_user, login_required, UserMixin, current_user
 from flask_ngrok import run_with_ngrok
 from myproject import app, db
@@ -182,6 +182,15 @@ def myfavorite():
     
     # 返回myfavorite.html模板，將最愛列表和推薦商品傳遞給模板
     return render_template('myfavorite.html', favorites=favorites, recommandations=recommandations)
+
+# 我的最愛，用於處理商品圖片的請求
+@app.route('/get_item_image/<int:item_id>', methods=['GET'])
+def get_item_image(item_id):
+    image_root = '../static/images/'  # 商品圖片的根目錄
+    subfolder = "0" + str(item_id)[:2]
+    image_path = f"{image_root}{subfolder}/0{item_id}.jpg"
+    return send_file(image_path, mimetype='image/jpeg')  # 返回圖片文件
+
 
 
 if __name__ == '__main__':
