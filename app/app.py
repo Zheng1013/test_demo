@@ -20,14 +20,20 @@ dataframe = None
 def index():
     #  image_root 需要根據圖片檔位置修改
     image_root = '../static/images/'
-    ids , prod , graphical = serch.carousel()
+    ids  = serch.carousel()
+    prod = []
+    grap = []
     image_paths = []
     for id in ids:
         subfolder = "0" + str(id)[:2]
         # 輪播商品圖片完整路径
         image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
         image_paths.append(image_path)
-        base_data = zip(ids,image_paths,prod,graphical)
+        article = Article.query.filter_by(item_id=id).first()
+        prod.append(article.prod_name)
+        grap.append(article.graphical_appearance_name)
+
+        base_data = zip(ids,image_paths,prod,grap)
     if request.method == "GET":
         return render_template('First_page.html',base_data=base_data)
     
@@ -178,45 +184,44 @@ def myfavorite():
     # 從Favorites中提取item_id
     item_ids = [favorite.item_id for favorite in favorites]
     
+    fav_paths=[]
+    prod_fav = []  # 商品名稱
+    grap_fav = []  # 外觀描述
+
+    for id in item_ids:
+        subfolder = "0" + str(id)[:2]
+        # 商品圖片完整路径
+        fav_path = f"../static/images/{subfolder}/0{id}.jpg"
+        fav_paths.append(fav_path)
+        
+        article = Article.query.filter_by(item_id=id).first()
+        prod_fav.append(article.prod_name)
+        grap_fav.append(article.graphical_appearance_name)
+        
+        zip_favor = zip(favorites , fav_paths, prod_fav, grap_fav)
+
+
+
     # 使用上述已訓練的KNN模型為這些item_id生成推薦
     recommandations = knn_model(item_ids)
     
     image_paths = []
-    prod = []  # 商品名稱
-    grap = []  # 外觀描述
+    prod_recommand = []  # 商品名稱
+    grap_recommand = []  # 外觀描述
 
     for id in recommandations:
         subfolder = "0" + str(id)[:2]
         # 商品圖片完整路径
         image_path = f"../static/images/{subfolder}/0{id}.jpg"
         image_paths.append(image_path)
-        
-        # 在此處根據商品ID從資料庫中獲取商品資訊
-        item_info = Article.query.get(id)  # 使用Article模型來查詢商品資訊
-        prod.append(item_info.prod_name)
-        grap.append(item_info.graphical_appearance_name)
 
+        article = Article.query.filter_by(item_id=id).first()
+        prod_recommand.append(article.prod_name)
+        grap_recommand.append(article.graphical_appearance_name)
+
+        zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
     # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
-    return render_template('myfavorite.html', favorites=favorites, recommandations=recommandations, image_paths=image_paths, prod=prod, grap=grap)
-
-# 我的最愛，用於處理商品圖片的請求
-@app.route('/get_item_image/<int:item_id>', methods=['GET'])
-def get_item_image(item_id):
-    image_root = '../static/images/'  # 商品圖片的根目錄
-    subfolder = "0" + str(item_id)[:2]
-    image_path = f"{image_root}{subfolder}/0{item_id}.jpg"
-    return send_file(image_path, mimetype='image/jpeg')  # 返回圖片文件
-
-# 示例get_item_info函數，您需要根據您的資料結構來實現它
-def get_item_info(item_id):
-    # 假設這是一個從資料庫中獲取商品資訊的函數
-    # 根據item_id查詢相關的商品資訊，並返回一個包含商品名稱和外觀描述的字典
-    # 注意：這只是一個示例，您需要根據實際情況來實現它
-    item_info = {
-        'product_name': '商品名稱',
-        'appearance': '外觀描述'
-    }
-    return item_info
+    return render_template('myfavorite.html', zip_favor = zip_favor, zip_recommand = zip_recommand)
 
 
 

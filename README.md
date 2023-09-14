@@ -23,7 +23,7 @@ CREATE TABLE clickdata (
 
 
 CREATE TABLE articles (
-    id  INT NOT NULL,
+    item_id  INT NOT NULL,
     product_code INT NOT NULL,
     prod_name  VARCHAR(255) NOT NULL,
     product_type_no INT NOT NULL,
@@ -48,5 +48,5 @@ CREATE TABLE articles (
     garment_group_no INT NOT NULL,
     garment_group_name VARCHAR(255) NOT NULL,
     detail_desc VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (item_id)
 );
