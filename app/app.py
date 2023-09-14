@@ -208,10 +208,6 @@ def myfavorite():
     prod_recommand = []  # 商品名稱
     grap_recommand = []  # 外觀描述
 
-cart = {
-    'cartItems': [],
-    'totalItems': 0
-    }
     for id in recommandations:
         subfolder = "0" + str(id)[:2]
         # 商品圖片完整路径
@@ -225,6 +221,11 @@ cart = {
         zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
     # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
     return render_template('myfavorite.html', zip_favor = zip_favor, zip_recommand = zip_recommand)
+
+cart = {
+    'cartItems': [],
+    'totalItems': 0
+    }
 
 @app.route('/add_to_cart',methods=['POST'])
 def add_to_cart():
