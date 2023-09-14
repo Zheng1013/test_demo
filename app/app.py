@@ -34,8 +34,9 @@ def index():
         prod.append(article.prod_name)
         color.append(article.colour_group_name)
         type.append(article.product_type_name)
+        
+    base_data = zip(ids,image_paths,prod,color,type)
 
-        base_data = zip(ids,image_paths,prod,color,type)
     if request.method == "GET":
         return render_template('First_page.html',base_data=base_data)
     
