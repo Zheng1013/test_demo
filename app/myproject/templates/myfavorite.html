@@ -15,15 +15,19 @@
     
     <h2>最愛列表</h2>
     <div class="item">
-        {% for favorite in favorites %}
-            <img src="{{ url_for('get_item_image', item_id=favorite.item_id) }}" alt="{{ favorite.item_id }}">
+        {% for favorite , image_url ,prod , grap in zip_favor %}
+            <img src="{{ image_url }}" alt="{{ favorite.item_id }}">
+            <h4 style="text-align: left;">商品名稱 : {{ prod }}</h4>
+            <h6 style="text-align: left;"> 外觀 : {{ grap}}</h6>
         {% endfor %}
     </div>
     
     <h2>推薦商品</h2>
     <div class="item">
-        {% for recommandation in recommandations %}
-            <img src="{{ url_for('get_item_image', item_id=recommandation) }}" alt="{{ recommandation }}">
+        {% for recommandation , url, prod, grap in zip_recommand %}
+            <img src="{{ url }}" alt="{{ recommandation }}">
+            <h4 style="text-align: left;">商品名稱 : {{ prod }}</h4>
+            <h6 style="text-align: left;"> 外觀 : {{ grap}}</h6>
         {% endfor %}
     </div>
 </body>

@@ -25,6 +25,5 @@ def carousel():
                 continue
     match_rows = df.iloc[row_list]
     id = match_rows.article_id.values.tolist()
-    prod = match_rows.prod_name.values.tolist()
-    graphical = match_rows.graphical_appearance_name.values.tolist()
-    return id , prod , graphical
+    
+    return id

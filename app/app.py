@@ -5,6 +5,7 @@ from myproject import app, db
 from myproject.models import User
 from myproject.forms import LoginForm, RegistrationForm
 from myproject.click import Favorite
+from myproject.data_info import Article
 from user_knn_model.user_userKNN  import knn_model
 from flask import Flask
 import pymysql
@@ -18,14 +19,20 @@ dataframe = None
 def index():
     #  image_root 需要根據圖片檔位置修改
     image_root = '../static/images/'
-    ids , prod , graphical = serch.carousel()
+    ids  = serch.carousel()
+    prod = []
+    grap = []
     image_paths = []
     for id in ids:
         subfolder = "0" + str(id)[:2]
         # 輪播商品圖片完整路径
         image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
         image_paths.append(image_path)
-        base_data = zip(ids,image_paths,prod,graphical)
+        article = Article.query.filter_by(item_id=id).first()
+        prod.append(article.prod_name)
+        grap.append(article.graphical_appearance_name)
+
+        base_data = zip(ids,image_paths,prod,grap)
     if request.method == "GET":
         return render_template('First_page.html',base_data=base_data)
     
@@ -176,16 +183,48 @@ def myfavorite():
     # 從Favorites中提取item_id
     item_ids = [favorite.item_id for favorite in favorites]
     
+    fav_paths=[]
+    prod_fav = []  # 商品名稱
+    grap_fav = []  # 外觀描述
+
+    for id in item_ids:
+        subfolder = "0" + str(id)[:2]
+        # 商品圖片完整路径
+        fav_path = f"../static/images/{subfolder}/0{id}.jpg"
+        fav_paths.append(fav_path)
+        
+        article = Article.query.filter_by(item_id=id).first()
+        prod_fav.append(article.prod_name)
+        grap_fav.append(article.graphical_appearance_name)
+        
+        zip_favor = zip(favorites , fav_paths, prod_fav, grap_fav)
+
+
+
     # 使用上述已訓練的KNN模型為這些item_id生成推薦
     recommandations = knn_model(item_ids)
     
-    # 返回myfavorite.html模板，將最愛列表和推薦商品傳遞給模板
-    return render_template('myfavorite.html', favorites=favorites, recommandations=recommandations)
+    image_paths = []
+    prod_recommand = []  # 商品名稱
+    grap_recommand = []  # 外觀描述
 
 cart = {
     'cartItems': [],
     'totalItems': 0
     }
+    for id in recommandations:
+        subfolder = "0" + str(id)[:2]
+        # 商品圖片完整路径
+        image_path = f"../static/images/{subfolder}/0{id}.jpg"
+        image_paths.append(image_path)
+
+        article = Article.query.filter_by(item_id=id).first()
+        prod_recommand.append(article.prod_name)
+        grap_recommand.append(article.graphical_appearance_name)
+
+        zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
+    # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
+    return render_template('myfavorite.html', zip_favor = zip_favor, zip_recommand = zip_recommand)
 
 @app.route('/add_to_cart',methods=['POST'])
 def add_to_cart():
