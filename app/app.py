@@ -161,9 +161,9 @@ def add_to_favorite():
         favorite = Favorite(user_id=user_id, item_id=item_id)
         db.session.add(favorite)
         db.session.commit()
-        return jsonify(message="商品已添加到最爱！")
+        return jsonify(message="商品已添加到購物車！"),200
     else:
-        return jsonify(message="您需要登录才能记录点击事件。"), 401  # 返回未授权状态码
+        return jsonify(message="添加商品到購物車时出现錯誤。"), 401  # 返回未授权状态码
 
 #--------我的最愛頁面
 @app.route('/myfavorite')
@@ -189,20 +189,41 @@ cart = {
 
 @app.route('/add_to_cart',methods=['POST'])
 def add_to_cart():
-    data = request.get_json()
-    already_exit = False
-    if cart['cartItems'] == []:
-        cart['cartItems'].append(data)
-        cart['totalItems'] += 1
-    else:
-        for item in cart['cartItems']:
-            if item['id'] == data['id']:
-                already_exit = True
-                break
-        if not already_exit:
+    if current_user.is_authenticated:
+        data = request.get_json()
+        already_exit = False
+        if cart['cartItems'] == []:
             cart['cartItems'].append(data)
-            cart['totalItems'] += 1          
-    return jsonify(cart)
+            cart['totalItems'] = len(cart['cartItems'])
+        else:
+            for item in cart['cartItems']:
+                if item['id'] == data['id']:
+                    already_exit = True
+                    break
+            if not already_exit:
+                cart['cartItems'].append(data)
+                cart['totalItems'] = len(cart['cartItems'])         
+        return jsonify(cart)
+    else:
+        return jsonify(message="添加商品到購物車时出现錯誤。"), 401
+    
+@app.route('/remove', methods=['POST'])
+def remove_item():
+    data = request.json
+    item_id = data.get('itemId')
+
+    # 在购物车数据中查找并删除具有匹配 itemId 的商品
+    updated_cart_items = [item for item in cart['cartItems'] if item['id'] != item_id]
+
+    # 更新购物车数据，这可能涉及到在数据库中更新购物车或会话中的内容
+    cart['cartItems'] = updated_cart_items
+
+    # 计算购物车中商品的总数量
+    total_items = sum(item.get('quantity', 1) for item in updated_cart_items)
+
+    # 最后，返回更新后的购物车内容和总数量
+    return jsonify({'cartItems': updated_cart_items, 'totalItems': total_items})
+
 
 
 if __name__ == '__main__':

@@ -13,6 +13,20 @@
         margin-right: 5px;
         /* 可根据需要调整图像与文字之间的间距 */
     }
+    .badge-danger {
+    color: #fff;          /* 文本颜色为白色 */
+    background-color: #dc3545; /* 背景颜色为红色 */
+    }
+
+    .badge-pill {
+    padding-right: 0.6em; /* 控制徽章的圆角 */
+    padding-left: 0.6em;  /* 控制徽章的圆角 */
+    border-radius: 10rem; /* 圆角样式，使徽章变成圆形或椭圆形 */
+    }
+    .dropdown-menu.dropdown-menu-right {
+    left: auto; /* 取消右侧对齐 */
+    right: 0;   /* 靠右边 */
+}
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
@@ -46,10 +60,6 @@
                 </li>
                 {% endif %}
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
             <div class="dropdown ml-auto">
                 <button class="btn btn-cart" data-toggle="dropdown">
                     <img src="{{ url_for('static', filename='html_img/cart.png') }}" alt="購物車" class="cart-icon">

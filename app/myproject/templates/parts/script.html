@@ -267,7 +267,7 @@
             },
             error: function (error) {
                 // 在发生错误时执行的操作
-                alert("添加商品到購物車时出现错误：" + error);
+                alert("請先登入或註冊會員：" + error);
             }
         });
     }
@@ -324,6 +324,27 @@
     }
 </script>
 
+<script>
+    function removeItem(itemId) {
+    fetch('/remove', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itemId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 更新购物车图标上的徽章和下拉菜单中的商品列表
+        updateCartBadge(data.totalItems);
+        updateCartDropdown(data.cartItems);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+</script>
 
 
 <!-- <script>
