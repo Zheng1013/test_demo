@@ -76,15 +76,16 @@
             </div>
             <div class="col-md-12">
                 <div class="owl-carousel owl-theme">
-                    {% for id,url,prod,graphical in base_data %}
+                    {% for id, url, name , color , type in base_data %}
                     <div class="featured-item" data-item-id="{{id}}">
-                        <img src="{{url}}" alt="Item 1">
-                        <h4>商品名稱 : {{ prod }}</h4>
-                        <h6>外觀 : {{ graphical}}</h6>
+                        <img src="{{url}}" alt="{{id}}">
+                        <h4> 商品名稱 : {{ name }}</h4>
+                        <h6> 顏色 : {{ color}}</h6>
+                        <h6> 商品類型 : {{ type }}</h6>
                         <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                             onclick="sendId('{{ id }}')">商品推薦</button>
                         <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
-                            onclick="myfavorite('{{ id }}')">加到最愛</button>
+                            onclick="myfavorite('{{ id }}','{{ name }}', '{{ color }}', '{{ type }}')">加入購物車</button>
                     </div>
                     {% endfor %}
                 </div>

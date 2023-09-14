@@ -317,7 +317,8 @@
             <td>${item.type}</td>
             <td>${item.color}</td>
             <td>${item.quantity}</td>
-            <td><a href="#" onclick="removeItem('${item.id}')">刪除<i class="fas fa-trash-alt"></i></a></td>
+            <td><button class="btn btn-custom" onclick="removeItem('${item.id}')">刪除
+                 <i class="fas fa-trash-alt"></i></button></td>
         `;
             table.appendChild(row);
         });
@@ -346,6 +347,23 @@
 
 </script>
 
+<script>
+    function checkout() {
+    fetch('/checkout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(data => {
+        // 更新购物车图标上的徽章和下拉菜单中的商品列表
+        updateCartBadge(data.totalItems);
+        updateCartDropdown(data.cartItems);
+        alert("結帳完成!");
+    })
+}
+</script>
 
 <!-- <script>
     function myfavorite(id,url,name,color,type) {

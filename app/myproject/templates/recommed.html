@@ -94,28 +94,30 @@
 
 <div class="content">
     <div class="one-container">
-        {% for id, image_url , prod , grap in one_zip %}
+        {% for id, image_url , name , color , type in one_zip %}
         <div class="oneitem">
             <div class="featured-item" data-item-id="{{ id }}">
                 <img src="{{ image_url }}" alt="">
-                <h4>商品名稱 : {{ prod }}</h4>
-                <h6>外觀 : {{ grap}}</h6>
+                <h4 style="text-align: left;">商品名稱 : {{ name  }}</h4>
+                <h6 style="text-align: left;"> 類型: {{ type }}</h6>
+                <h6 style="text-align: left;"> 顏色: {{ color }}</h6>
             </div>
         </div>
         {% endfor %}
     </div>
 
     <div class="image-container">
-        {% for id, image_url , prod , grap in five_zip %}
+        {% for id, image_url , name , color , type in five_zip %}
         <div class="item">
             <div class="featured-item" data-item-id="{{ id }}">
                 <img src="{{ image_url }}" alt="">
-                <h4 style="text-align: left;">商品名稱 : {{ prod }}</h4>
-                <h6 style="text-align: left;"> 外觀 : {{ grap}}</h6>
+                <h4 style="text-align: left;">商品名稱 : {{ name  }}</h4>
+                <h6 style="text-align: left;"> 類型: {{ type }}</h6>
+                <h6 style="text-align: left;"> 顏色: {{ color }}</h6>
                 <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                     onclick="sendId('{{ id }}')">商品推薦</button>
                 <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
-                    onclick="myfavorite('{{ id }}')">加到最愛</button>
+                    onclick="myfavorite('{{ id }}','{{ name }}', '{{ color }}', '{{ type }}')">加入購物車</button>
             </div>
         </div>
         {% endfor %}
@@ -147,7 +149,7 @@
 
 <!-- 加到最愛 -->
 
-<script>
+<!-- <script>
     function myfavorite(itemId) {
         // 使用Ajax发送POST请求
         $.ajax({
@@ -165,7 +167,7 @@
         });
     }
 
-</script>
+</script> -->
 {% block script %}
 {% include "parts/script.html" %}
 {% endblock script %}

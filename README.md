@@ -47,6 +47,6 @@ CREATE TABLE articles (
     section_name VARCHAR(255) NOT NULL,
     garment_group_no INT NOT NULL,
     garment_group_name VARCHAR(255) NOT NULL,
-    detail_desc VARCHAR(255) NOT NULL,
+    detail_desc text NOT NULL,
     PRIMARY KEY (item_id)
 );
