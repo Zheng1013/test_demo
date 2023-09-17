@@ -32,7 +32,7 @@
         background-image: url("../static/html_img/background.png");
         background-size: cover;
         background-repeat: no-repeat;
-        padding: 150px 0px;
+        padding: 100px; 
         background-position: center center;
         height: 700px;
     }
@@ -57,7 +57,7 @@
     .image-container {
         display: flex;
         flex-wrap: wrap;
-        justify-content:center;
+        justify-content: center;
         gap: 20px;
         /* 商品之间的间距，根据需要调整 */
         max-width: 1800px;
@@ -90,5 +90,35 @@
         overflow: hidden;
     }
 
-    
+    /* 适用于小屏幕设备的样式 */
+    @media (max-width: 768px) {
+        .image-container {
+            flex-direction: column;
+            /* 列表布局 */
+        }
+
+        .d-flex {
+            flex-direction: column;
+            /* 列表布局 */
+            margin: 20px;
+        }
+
+        .item {
+            width: 100%;
+            margin-bottom: 20px;
+            /* 添加底部外边距 */
+        }
+    }
+
+
+
+    /* 在屏幕宽度小于等于768px时修改样式 */
+    @media (max-width: 768px) {
+        .banner {
+            width: 100%;
+            /* 在小屏幕上仍然使用100%宽度 */
+            height: auto;
+            /* 高度自动调整以保持宽高比 */
+        }
+    }
 </style>

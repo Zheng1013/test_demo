@@ -1,34 +1,89 @@
-{% include "parts/navbar.html" %}
+{% include "parts/base.html" %}
+
 <script src="{{url_for('static',filename='bootstrap-5.0.2-dist/js/bootstrap.js')}}"></script>
 <link rel="stylesheet" href="{{url_for('static',filename='bootstrap-5.0.2-dist/css/bootstrap.css')}}">
 <style>
     .form-group {
         margin-top: 20px;
     }
+
+    .content {
+        flex: 1;
+        padding-bottom: 60px;
+        padding: 0;
+        /* Allow content to stretch and push footer to bottom */
+    }
+
+    .register-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        /* 表单容器的透明背景 */
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        width: 30%;
+        margin-top: 50px;
+
+    }
+
+    .background {
+        background-image: url('../static/html_img/register.jpg');
+        background-size: cover;
+        /* 背景图像的大小适应容器 */
+        background-repeat: no-repeat;
+        /* 不重复背景图像 */
+        height: 100vh;
+        /* 设置容器的高度，占满整个视口 */
+        background-position: center 0px;
+        width: 100%;
+        z-index: -1;
+        /* 确保背景在最底层 */
+    }
+    @media (max-width: 768px) {
+        .background {
+            background-size: cover;
+            width: 100%;
+        }
+
+        .register-container {
+            width: 90%;
+            
+        }
+    }
 </style>
 
-<div style="width: 80%; margin: auto; margin-top: 50px;">
+{% block content%}
 
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.email.label }}
-            {{ form.email(class_="form-control form-control-lg") }}
-        </div>
-        <div class="form-group">
-            {{form.username.label}}
-            {{form.username(class_="form-control form-control-lg") }}
-        </div>
-        <div class="form-group">
-            {{ form.password.label }}
-            {{ form.password(class_="form-control form-control-lg") }}
-        </div>
-        <div class="form-group">
-            {{ form.password_confirm.label }}
-            {{ form.password_confirm(class_="form-control form-control-lg") }}
-        </div>
-        <br>
-        {{form.submit(class_="btn btn-primary btn-lg")}}
-    </form>
+<div class="content">
+    <div class="background"></div>
+    <div class="register-container">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(class_="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{form.username.label}}
+                {{form.username(class_="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class_="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.password_confirm.label }}
+                {{ form.password_confirm(class_="form-control form-control-lg") }}
+            </div>
+            <br>
+            {{form.submit(class_="btn btn-primary btn-lg")}}
+        </form>
+    </div>
 </div>
-{% include "parts/footer.html" %}
+
+    {% include "parts/footer.html" %}
+{% endblock content %}

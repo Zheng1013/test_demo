@@ -266,16 +266,16 @@ def remove_item():
     data = request.json
     item_id = data.get('itemId')
 
-    # 在购物车数据中查找并删除具有匹配 itemId 的商品
+    # 在購物車列表中查找並排除匹配 itemId 的商品
     updated_cart_items = [item for item in cart['cartItems'] if item['id'] != item_id]
 
-    # 更新购物车数据，这可能涉及到在数据库中更新购物车或会话中的内容
+    # 更新購物車內容
     cart['cartItems'] = updated_cart_items
 
-    # 计算购物车中商品的总数量
+    # 計算購物車中商品的總數量
     cart['totalItems'] = sum(item.get('quantity') for item in updated_cart_items)
 
-    # 最后，返回更新后的购物车内容和总数量
+    # 返回購物車商品內容和商品總數量
     return jsonify(cart)
 
 @app.route('/checkout', methods=['POST'])

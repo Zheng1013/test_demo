@@ -1,4 +1,4 @@
-{% include "parts/navbar.html" %}
+{% include "parts/base.html" %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
     .content {
@@ -22,7 +22,7 @@
         /* 商品之间的间距，根据需要调整 */
         max-width: 1800px;
         /* 最大宽度，根据需要调整 */
-        margin: 50px auto;
+        margin: 20px auto;
     }
 
     /* 图片项目的样式 */
@@ -56,7 +56,7 @@
     }
 
     .oneitem {
-        width: calc(50%);
+        width: 500px;
         margin: 0 auto;
         padding: 20px;
         background-color: #f0f0f0;
@@ -89,16 +89,36 @@
         font-weight: 700;
         margin-bottom: 0px;
     }
+
+    @media (max-width: 768px) {
+        .image-container {
+            flex-direction: column;
+            /* 列表布局 */
+        }
+        .one-container {
+            flex-direction: column;
+            /* 列表布局 */
+        }
+        .oneitem{
+            width: 100%;
+            
+        }
+
+        .item {
+            width: 100%;
+            
+        }
+    }
 </style>
 
-
+{% block content %}
 <div class="content">
     <div class="one-container">
         {% for id, image_url , name , color , type in one_zip %}
         <div class="oneitem">
             <div class="featured-item" data-item-id="{{ id }}">
                 <img src="{{ image_url }}" alt="">
-                <h4 style="text-align: left;">商品名稱 : {{ name  }}</h4>
+                <h4 style="text-align: left;">商品名稱 : {{ name }}</h4>
                 <h6 style="text-align: left;"> 類型: {{ type }}</h6>
                 <h6 style="text-align: left;"> 顏色: {{ color }}</h6>
             </div>
@@ -111,7 +131,7 @@
         <div class="item">
             <div class="featured-item" data-item-id="{{ id }}">
                 <img src="{{ image_url }}" alt="">
-                <h4 style="text-align: left;">商品名稱 : {{ name  }}</h4>
+                <h4 style="text-align: left;">商品名稱 : {{ name }}</h4>
                 <h6 style="text-align: left;"> 類型: {{ type }}</h6>
                 <h6 style="text-align: left;"> 顏色: {{ color }}</h6>
                 <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
@@ -124,10 +144,11 @@
     </div>
 
 </div>
-
-
-
 {% include "parts/footer.html" %}
+{% endblock content %}
+
+
+
 
 
 <script>
@@ -147,27 +168,6 @@
     }
 </script>
 
-<!-- 加到最愛 -->
-
-<!-- <script>
-    function myfavorite(itemId) {
-        // 使用Ajax发送POST请求
-        $.ajax({
-            type: "POST",
-            url: "/add_to_favorite",
-            data: { item_id: itemId },
-            success: function(response) {
-                // 在成功响应时执行的操作
-                alert("商品已添加到最爱！");
-            },
-            error: function(error) {
-                // 在发生错误时执行的操作
-                alert("添加商品到最爱时出现错误：" + error);
-            }
-        });
-    }
-
-</script> -->
 {% block script %}
 {% include "parts/script.html" %}
 {% endblock script %}
