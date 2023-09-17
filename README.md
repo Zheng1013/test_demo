@@ -50,3 +50,11 @@ CREATE TABLE articles (
     detail_desc text NOT NULL,
     PRIMARY KEY (item_id)
 );
+
+#導入csv
+LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\articles.csv' 
+INTO TABLE articles 
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
