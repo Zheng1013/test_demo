@@ -96,7 +96,9 @@ def report():
 
 @app.route('/recommed')
 def recommed():
-    return render_template('recommed.html')
+    zip_recommand = request.args.get('zip_recommand')
+
+    return render_template('recommed.html', zip_recommand=zip_recommand)
 
 @app.route('/test',methods=['POST'])
 def test():
@@ -232,7 +234,7 @@ def myfavorite():
 
         zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
     # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
-    return render_template('myfavorite.html', zip_favor = zip_favor, zip_recommand = zip_recommand)
+    return redirect(url_for('recommed', zip_favor = zip_favor, zip_recommand = zip_recommand))
 
 cart = {
     'cartItems': [],

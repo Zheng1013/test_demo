@@ -144,8 +144,30 @@
     </div>
 
 </div>
-{% include "parts/footer.html" %}
 {% endblock content %}
+{% block content2 %}
+<div>
+    {% if current_user.is_authenticated %}
+    {% if zip_recommand is not none %}
+    {% for recommend, url , prod , grap in zip_recommand %}
+    <div class="item">
+        <div class="featured-item" data-item-id="{{ recommend }}">
+            <img src="{{ url }}" alt="">
+            <h4 style="text-align: left;">商品名稱 : {{ prod }}</h4>
+            <h6 style="text-align: left;"> 類型: {{ grap }}</h6>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% else %}
+    <div>
+        <h2>請登陸或註冊帳號</h2>
+    </div>
+    {% endif %}
+</div>
+{% endblock content2 %}
+{% include "parts/footer.html" %}
+
 
 
 
