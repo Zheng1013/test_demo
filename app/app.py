@@ -117,8 +117,7 @@ def test():
         item_id = request.form['itemId']
         item_id = int(item_id)
         similar_ids = knn.knn_model(item_id)
-        prod , grap= serch.serch_article(similar_ids)
-            # 創建列表，儲存每個ID對應的圖片路徑
+        # 創建列表，儲存每個ID對應的圖片路徑
         image_paths = []
         prod = []
         color = []
