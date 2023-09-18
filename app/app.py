@@ -15,6 +15,7 @@ from knn_model import knn , serch , option
 
 dataframe = None
 
+#-------首頁(GET:首頁 ,POST:將下拉式選單以POST傳送至首頁)---------
 @app.route('/',methods=['GET','POST'])
 def index():
     #  image_root 需要根據圖片檔位置修改
@@ -57,6 +58,7 @@ def index():
         zip_top10 =  zip(ids,names,colors,types,image_paths)
         return render_template('First_page.html',zip_top10=zip_top10 ,base_data=base_data)
 
+
 @app.route('/get_index',methods=['POST'])
 def get_index():
     global dataframe
@@ -83,39 +85,47 @@ def get_type():
     dataframe = group_df
     return jsonify({'options':group_type_list})
 
+#-------首頁(GET:首頁 ,POST:將下拉式選單以POST傳送至首頁)end---------
 
+
+#-----登出後轉跳------
 @app.route('/home')
 def base():
     return render_template('home.html')
+#-----登出後轉跳end------
 
 
+#-----圖表--------
 @app.route('/report')
 def report():
     return render_template('report.html')
+#-----圖表end--------
 
+
+#-----推薦系統------
 
 @app.route('/recommed')
 def recommed():
-    zip_recommand = request.args.get('zip_recommand')
-
-    return render_template('recommed.html', zip_recommand=zip_recommand)
+    return render_template('recommed.html')
 
 @app.route('/test',methods=['POST'])
 def test():
     image_root = '../static/images/'
+
+    
     if request.method == 'POST':
         item_id = request.form['itemId']
         item_id = int(item_id)
         similar_ids = knn.knn_model(item_id)
         prod , grap= serch.serch_article(similar_ids)
-        # 創建列表，儲存每個ID對應的圖片路徑
+            # 創建列表，儲存每個ID對應的圖片路徑
         image_paths = []
         prod = []
         color = []
         type = []
         for id in similar_ids:
             subfolder = "0" + str(id)[:2]
-            # 商品圖片完整路径
+                # 商品圖片完整路径
             image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
             image_paths.append(image_path)
             article = Article.query.filter_by(item_id=id).first()
@@ -125,35 +135,43 @@ def test():
 
         one_zip = zip(similar_ids[:1],image_paths[:1],prod[:1] ,color[:1],type[:1])
         five_zip= zip(similar_ids[1:],image_paths[1:],prod[1:] ,color[1:],type[1:])
-        return render_template('recommed.html',five_zip=five_zip,one_zip=one_zip)  
+
+        if current_user.is_authenticated:
+
+            user_id = current_user.id
+            favorites = Favorite.query.filter_by(user_id=user_id).all()
+
+            # 从Favorites中提取item_id
+            item_ids = [favorite.item_id for favorite in favorites]
+
+            recommandations = knn_model(item_ids)
+
+            image_paths = []
+            prod_recommand = []  # 商品名称
+            grap_recommand = []  # 外观描述
+
+            for id in recommandations:
+                subfolder = "0" + str(id)[:2]
+                # 商品图片完整路径
+                image_path = f"../static/images/{subfolder}/0{id}.jpg"
+                image_paths.append(image_path)
+
+                article = Article.query.filter_by(item_id=id).first()
+                prod_recommand.append(article.prod_name)
+                grap_recommand.append(article.graphical_appearance_name)
+
+            zip_recommand = zip(recommandations, image_paths, prod_recommand, grap_recommand)
+
+
+            return render_template('recommed.html',five_zip=five_zip,one_zip=one_zip,zip_recommand=zip_recommand) 
+        else:
+            # 用户未认证，可以执行未认证用户的操作
+
+            # 在这里，您可以处理未认证用户的逻辑
+
+            return render_template('recommed.html', five_zip=five_zip, one_zip=one_zip)
     
-@app.route('/recommend')    
-@login_required 
-def recommend():
-    user_id = current_user.id
-    favorites = Favorite.query.filter_by(user_id=user_id).all()
-    
-    # 從Favorites中提取item_id
-    item_ids = [favorite.item_id for favorite in favorites]
-    recommandations = knn_model(item_ids)
-    
-    image_paths = []
-    prod_recommand = []  # 商品名稱
-    grap_recommand = []  # 外觀描述
-
-    for id in recommandations:
-        subfolder = "0" + str(id)[:2]
-        # 商品圖片完整路径
-        image_path = f"../static/images/{subfolder}/0{id}.jpg"
-        image_paths.append(image_path)
-
-        article = Article.query.filter_by(item_id=id).first()
-        prod_recommand.append(article.prod_name)
-        grap_recommand.append(article.graphical_appearance_name)
-
-        zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
-    return render_template('recommed.html', zip_recommand = zip_recommand)
-
+#-------推薦系統end------
 
 
 #--------登錄系統-------
@@ -200,7 +218,62 @@ def welcome_user():
 
 #--------登錄系統end-------
 
-#--------加到購物車----------
+
+#--------我的最愛頁面
+# @app.route('/myfavorite')
+# @login_required  # 確保只有登錄的用戶可以訪問這個頁面
+# def myfavorite():
+#     # 在這裡，你需要根據當前已登錄用戶的ID查詢其最愛的商品
+#     user_id = current_user.id
+#     favorites = Favorite.query.filter_by(user_id=user_id).all()
+    
+#     # 從Favorites中提取item_id
+#     item_ids = [favorite.item_id for favorite in favorites]
+    
+#     fav_paths=[]
+#     prod_fav = []  # 商品名稱
+#     grap_fav = []  # 外觀描述
+
+#     for id in item_ids:
+#         subfolder = "0" + str(id)[:2]
+#         # 商品圖片完整路径
+#         fav_path = f"../static/images/{subfolder}/0{id}.jpg"
+#         fav_paths.append(fav_path)
+        
+#         article = Article.query.filter_by(item_id=id).first()
+#         prod_fav.append(article.prod_name)
+#         grap_fav.append(article.graphical_appearance_name)
+        
+#     zip_favor = zip(favorites , fav_paths, prod_fav, grap_fav)
+
+
+
+#     # 使用上述已訓練的KNN模型為這些item_id生成推薦
+#     recommandations = knn_model(item_ids)
+    
+#     image_paths = []
+#     prod_recommand = []  # 商品名稱
+#     grap_recommand = []  # 外觀描述
+
+#     for id in recommandations:
+#         subfolder = "0" + str(id)[:2]
+#         # 商品圖片完整路径
+#         image_path = f"../static/images/{subfolder}/0{id}.jpg"
+#         image_paths.append(image_path)
+
+#         article = Article.query.filter_by(item_id=id).first()
+#         prod_recommand.append(article.prod_name)
+#         grap_recommand.append(article.graphical_appearance_name)
+
+#     zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
+    
+        
+#     # return render_template('recommed.html', zip_recommand = zip_recommand)
+#     # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
+#     return render_template('myfavorite.html', zip_favor = zip_favor, zip_recommand = zip_recommand)
+
+
+#--------加到購物車的點擊事件(itemID到資料庫)----------
 
 @app.route('/add_to_favorite', methods=['POST'])
 def add_to_favorite():
@@ -214,57 +287,7 @@ def add_to_favorite():
     else:
         return jsonify(message="添加商品到購物車时出现錯誤。"), 401  # 返回未授权状态码
 
-#--------我的最愛頁面
-@app.route('/myfavorite')
-@login_required  # 確保只有登錄的用戶可以訪問這個頁面
-def myfavorite():
-    # 在這裡，你需要根據當前已登錄用戶的ID查詢其最愛的商品
-    user_id = current_user.id
-    favorites = Favorite.query.filter_by(user_id=user_id).all()
-    
-    # 從Favorites中提取item_id
-    item_ids = [favorite.item_id for favorite in favorites]
-    
-    fav_paths=[]
-    prod_fav = []  # 商品名稱
-    grap_fav = []  # 外觀描述
-
-    for id in item_ids:
-        subfolder = "0" + str(id)[:2]
-        # 商品圖片完整路径
-        fav_path = f"../static/images/{subfolder}/0{id}.jpg"
-        fav_paths.append(fav_path)
-        
-        article = Article.query.filter_by(item_id=id).first()
-        prod_fav.append(article.prod_name)
-        grap_fav.append(article.graphical_appearance_name)
-        
-        zip_favor = zip(favorites , fav_paths, prod_fav, grap_fav)
-
-
-
-    # 使用上述已訓練的KNN模型為這些item_id生成推薦
-    recommandations = knn_model(item_ids)
-    
-    image_paths = []
-    prod_recommand = []  # 商品名稱
-    grap_recommand = []  # 外觀描述
-
-    for id in recommandations:
-        subfolder = "0" + str(id)[:2]
-        # 商品圖片完整路径
-        image_path = f"../static/images/{subfolder}/0{id}.jpg"
-        image_paths.append(image_path)
-
-        article = Article.query.filter_by(item_id=id).first()
-        prod_recommand.append(article.prod_name)
-        grap_recommand.append(article.graphical_appearance_name)
-
-        zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
-    # return render_template('recommed.html', zip_recommand = zip_recommand)
-    # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
-    return redirect(url_for('recommed', zip_favor = zip_favor, zip_recommand = zip_recommand))
-
+#-------購物車-------
 cart = {
     'cartItems': [],
     'totalItems': 0
@@ -314,6 +337,8 @@ def checkout():
     cart['cartItems'] = []
     cart['totalItems'] = 0
     return jsonify(cart)
+#--------購物車end--------
+
 
 if __name__ == '__main__':
     app.run(debug=True)
