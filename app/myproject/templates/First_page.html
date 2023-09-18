@@ -1,7 +1,4 @@
 {% extends "parts/base.html" %}
-{% block style %}
-{% include "parts/style.html"%}
-{% endblock style %}
 
 
 
@@ -21,15 +18,15 @@
             </div>
 
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="indexMenu" style="margin-left: 10px;">
-                <option value="loading">index</option>
+                <option value="loading">服飾類別</option>
             </select>
 
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="groupMenu" style="margin-left: 10px;">
-                <option value="loading">group</option>
+                <option value="loading">服飾類型</option>
             </select>
 
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="typeMenu" style="margin-left: 10px;">
-                <option value="" >type</option>
+                <option value="" >服飾樣式</option>
             </select>
 
             <div class="input-group input-group-lg" style="margin: auto 10px;">
@@ -62,6 +59,10 @@
 
        
 {% include "parts/carousel.html" %}
+{% include "parts/footer.html" %}
+
+
+
 {% endblock content %}
 
 

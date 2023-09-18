@@ -1,4 +1,4 @@
-{% include "parts/navbar.html" %}
+{% include "parts/base.html" %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
     .content {
@@ -22,7 +22,7 @@
         /* 商品之间的间距，根据需要调整 */
         max-width: 1800px;
         /* 最大宽度，根据需要调整 */
-        margin: 50px auto;
+        margin: 20px auto;
     }
 
     /* 图片项目的样式 */
@@ -56,7 +56,7 @@
     }
 
     .oneitem {
-        width: calc(50%);
+        width: 500px;
         margin: 0 auto;
         padding: 20px;
         background-color: #f0f0f0;
@@ -89,33 +89,55 @@
         font-weight: 700;
         margin-bottom: 0px;
     }
+
+    @media (max-width: 768px) {
+        .image-container {
+            flex-direction: column;
+            /* 列表布局 */
+        }
+        .one-container {
+            flex-direction: column;
+            /* 列表布局 */
+        }
+        .oneitem{
+            width: 100%;
+            
+        }
+
+        .item {
+            width: 100%;
+            
+        }
+    }
 </style>
 
-
+{% block content %}
 <div class="content">
     <div class="one-container">
-        {% for id, image_url , prod , grap in one_zip %}
+        {% for id, image_url , name , color , type in one_zip %}
         <div class="oneitem">
             <div class="featured-item" data-item-id="{{ id }}">
                 <img src="{{ image_url }}" alt="">
-                <h4>商品名稱 : {{ prod }}</h4>
-                <h6>外觀 : {{ grap}}</h6>
+                <h4 style="text-align: left;">商品名稱 : {{ name }}</h4>
+                <h6 style="text-align: left;"> 類型: {{ type }}</h6>
+                <h6 style="text-align: left;"> 顏色: {{ color }}</h6>
             </div>
         </div>
         {% endfor %}
     </div>
 
     <div class="image-container">
-        {% for id, image_url , prod , grap in five_zip %}
+        {% for id, image_url , name , color , type in five_zip %}
         <div class="item">
             <div class="featured-item" data-item-id="{{ id }}">
                 <img src="{{ image_url }}" alt="">
-                <h4 style="text-align: left;">商品名稱 : {{ prod }}</h4>
-                <h6 style="text-align: left;"> 外觀 : {{ grap}}</h6>
+                <h4 style="text-align: left;">商品名稱 : {{ name }}</h4>
+                <h6 style="text-align: left;"> 類型: {{ type }}</h6>
+                <h6 style="text-align: left;"> 顏色: {{ color }}</h6>
                 <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
                     onclick="sendId('{{ id }}')">商品推薦</button>
                 <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
-                    onclick="myfavorite('{{ id }}')">加到最愛</button>
+                    onclick="myfavorite('{{ id }}','{{ name }}', '{{ color }}', '{{ type }}')">加入購物車</button>
             </div>
         </div>
         {% endfor %}
@@ -142,10 +164,33 @@
     <h1>請先登錄</h1>
     {% endif %}
 </div>
-
-
-
+{% endblock content %}
+{% block content2 %}
+<div>
+    {% if current_user.is_authenticated %}
+    {% if zip_recommand is not none %}
+    {% for recommend, url , prod , grap in zip_recommand %}
+    <div class="item">
+        <div class="featured-item" data-item-id="{{ recommend }}">
+            <img src="{{ url }}" alt="">
+            <h4 style="text-align: left;">商品名稱 : {{ prod }}</h4>
+            <h6 style="text-align: left;"> 類型: {{ grap }}</h6>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% else %}
+    <div>
+        <h2>請登陸或註冊帳號</h2>
+    </div>
+    {% endif %}
+</div>
+{% endblock content2 %}
 {% include "parts/footer.html" %}
+
+
+
+
 
 
 <script>
@@ -165,27 +210,6 @@
     }
 </script>
 
-<!-- 加到最愛 -->
-
-<script>
-    function myfavorite(itemId) {
-        // 使用Ajax发送POST请求
-        $.ajax({
-            type: "POST",
-            url: "/add_to_favorite",
-            data: { item_id: itemId },
-            success: function(response) {
-                // 在成功响应时执行的操作
-                alert("商品已添加到最爱！");
-            },
-            error: function(error) {
-                // 在发生错误时执行的操作
-                alert("添加商品到最爱时出现错误：" + error);
-            }
-        });
-    }
-
-</script>
 {% block script %}
 {% include "parts/script.html" %}
 {% endblock script %}

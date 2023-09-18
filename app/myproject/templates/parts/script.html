@@ -61,12 +61,16 @@
     // 監聽使用者輸入年紀按下"Enter"時觸發
     document.getElementById("age_input").addEventListener("keyup", function (event) {
         if (event.key == "Enter") {
-            if (document.getElementById("age_input").value !== "") {
+            const ageInput = document.getElementById("age_input")
+            const ageValue = parseInt(ageInput.value,10)
+            if (isNaN(ageValue) || ageValue<=0 || ageValue !== parseFloat(ageInput.value)) {
+                alert("請輸入整數")
+            }else{
                 indexOptions();
             }
         }
     });
-
+    
     // 設定input提示字樣
     document.getElementById("age_input").addEventListener("focus", function () {
         document.getElementById("age_input").placeholder = "";
@@ -317,7 +321,8 @@
             <td>${item.type}</td>
             <td>${item.color}</td>
             <td>${item.quantity}</td>
-            <td><a href="#" onclick="removeItem('${item.id}')">刪除<i class="fas fa-trash-alt"></i></a></td>
+            <td><button class="btn btn-custom" onclick="removeItem('${item.id}')">刪除
+                 <i class="fas fa-trash-alt"></i></button></td>
         `;
             table.appendChild(row);
         });
@@ -346,29 +351,23 @@
 
 </script>
 
-
-<!-- <script>
-    function myfavorite(id,url,name,color,type) {
-        app.addToCart(id,url,name,color,type)
-        // 使用Ajax发送POST请求
-        $.ajax({
-            type: "POST",
-            url: "/add_to_favorite",
-            data: { item_id: id },
-            success: function(response) {
-                // 在成功响应时执行的操作
-                alert("商品已添加到最爱！");
-            },
-            error: function(error) {
-                // 在发生错误时执行的操作
-                alert("添加商品到最爱时出现错误：" + error);
-            }
-        });
-    }
-
-</script> -->
-
-
+<script>
+    function checkout() {
+    fetch('/checkout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(data => {
+        // 更新购物车图标上的徽章和下拉菜单中的商品列表
+        updateCartBadge(data.totalItems);
+        updateCartDropdown(data.cartItems);
+        alert("結帳完成!");
+    })
+}
+</script>
 
 
 <script>
@@ -381,8 +380,11 @@
         color_input.value = "";
 
     }
+</script>
 
-    window.onload = function () {
-        clearUserInput();
-    };
+<script>
+window.addEventListener('load', function() {
+    clearUserInput()
+});
+
 </script>

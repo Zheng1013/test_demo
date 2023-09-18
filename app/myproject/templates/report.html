@@ -1,14 +1,7 @@
 {% include "parts/navbar.html" %}
-<!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" href="../static/bootstrap-5.0.2-dist/css/carousel.css">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>H&M report</title>
-    <link rel="stylesheet" href="../static/bootstrap-5.0.2-dist/css/carousel.css">
-    <script src="../static/bootstrap-5.0.2-dist/js/carousel.js"></script>
-    <style>
+<style>
         body,
         html {
             margin: 0;
@@ -42,10 +35,7 @@
             max-width: 100%;
             max-height: 100%;
         }
-    </style>
-</head>
-
-<body>
+</style>
     <div class="content">
         <br>
         <div>
@@ -99,6 +89,10 @@
         </div>
     </div>>
     {% include "parts/footer.html" %}
-</body>
 
-</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../static/bootstrap-5.0.2-dist/js/carousel.js"></script>
+
+{% block script %}
+{% include "parts/script.html" %}
+{% endblock script %}

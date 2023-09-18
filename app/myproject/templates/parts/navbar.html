@@ -26,7 +26,18 @@
     .dropdown-menu.dropdown-menu-right {
     left: auto; /* 取消右侧对齐 */
     right: 0;   /* 靠右边 */
-}
+    }
+    .btn-custom {
+        background-color: #007bff; /* 设置背景颜色为蓝色 */
+        color: #fff; /* 设置文字颜色为白色 */
+        border: none; /* 移除边框 */
+        border-radius: 4px; /* 添加圆角 */
+        padding: 5px 5px; /* 调整内边距 */
+    }
+
+    .btn-custom:hover {
+        background-color: #0056b3; /* 鼠标悬停时的背景颜色 */
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
@@ -63,7 +74,7 @@
             <div class="dropdown ml-auto">
                 <button class="btn btn-cart" data-toggle="dropdown">
                     <img src="{{ url_for('static', filename='html_img/cart.png') }}" alt="購物車" class="cart-icon">
-                    <span class="badge badge-pill badge-danger">12</span>
+                    <span class="badge badge-pill badge-danger"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuReference"
                     style="min-width:400px;">
@@ -82,7 +93,7 @@
                             <tbody>
                             </tbody>
                         </table>
-                        <a href="#" class="btn btn-primary btn-block"> 結帳去</a>
+                        <button class="btn btn-primary btn-block" onclick="checkout()">結帳</button>
                     </div>
                 </div>
             </div>

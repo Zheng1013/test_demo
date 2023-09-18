@@ -21,18 +21,22 @@ def index():
     image_root = '../static/images/'
     ids  = serch.carousel()
     prod = []
-    grap = []
+    color = []
+    type = []
     image_paths = []
     for id in ids:
         subfolder = "0" + str(id)[:2]
         # 輪播商品圖片完整路径
         image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
         image_paths.append(image_path)
+         # 輪播商品資訊
         article = Article.query.filter_by(item_id=id).first()
         prod.append(article.prod_name)
-        grap.append(article.graphical_appearance_name)
+        color.append(article.colour_group_name)
+        type.append(article.product_type_name)
+        
+    base_data = zip(ids,image_paths,prod,color,type)
 
-        base_data = zip(ids,image_paths,prod,grap)
     if request.method == "GET":
         return render_template('First_page.html',base_data=base_data)
     
@@ -92,7 +96,9 @@ def report():
 
 @app.route('/recommed')
 def recommed():
-    return render_template('recommed.html')
+    zip_recommand = request.args.get('zip_recommand')
+
+    return render_template('recommed.html', zip_recommand=zip_recommand)
 
 @app.route('/test',methods=['POST'])
 def test():
@@ -104,13 +110,21 @@ def test():
         prod , grap= serch.serch_article(similar_ids)
         # 創建列表，儲存每個ID對應的圖片路徑
         image_paths = []
+        prod = []
+        color = []
+        type = []
         for id in similar_ids:
             subfolder = "0" + str(id)[:2]
             # 商品圖片完整路径
             image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
             image_paths.append(image_path)
-        one_zip = zip(similar_ids[:1],image_paths[:1],prod[:1] ,grap[:1])
-        five_zip= zip(similar_ids[1:],image_paths[1:],prod[1:] ,grap[1:])
+            article = Article.query.filter_by(item_id=id).first()
+            prod.append(article.prod_name)
+            color.append(article.colour_group_name)
+            type.append(article.product_type_name)
+
+        one_zip = zip(similar_ids[:1],image_paths[:1],prod[:1] ,color[:1],type[:1])
+        five_zip= zip(similar_ids[1:],image_paths[1:],prod[1:] ,color[1:],type[1:])
         return render_template('recommed.html',five_zip=five_zip,one_zip=one_zip)  
     
 @app.route('/recommend')    
@@ -249,7 +263,7 @@ def myfavorite():
         zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
     # return render_template('recommed.html', zip_recommand = zip_recommand)
     # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
-    return render_template('myfavorite.html', zip_favor = zip_favor, zip_recommand = zip_recommand)
+    return redirect(url_for('recommed', zip_favor = zip_favor, zip_recommand = zip_recommand))
 
 cart = {
     'cartItems': [],
@@ -263,15 +277,17 @@ def add_to_cart():
         already_exit = False
         if cart['cartItems'] == []:
             cart['cartItems'].append(data)
-            cart['totalItems'] = len(cart['cartItems'])
+            cart['totalItems'] = sum(item.get('quantity') for item in cart['cartItems'])
         else:
             for item in cart['cartItems']:
                 if item['id'] == data['id']:
+                    item['quantity'] += 1
+                    cart['totalItems'] = sum(item.get('quantity') for item in cart['cartItems'])
                     already_exit = True
                     break
             if not already_exit:
                 cart['cartItems'].append(data)
-                cart['totalItems'] = len(cart['cartItems'])         
+                cart['totalItems'] = sum(item.get('quantity') for item in cart['cartItems'])         
         return jsonify(cart)
     else:
         return jsonify(message="添加商品到購物車时出现錯誤。"), 401
@@ -281,19 +297,23 @@ def remove_item():
     data = request.json
     item_id = data.get('itemId')
 
-    # 在购物车数据中查找并删除具有匹配 itemId 的商品
+    # 在購物車列表中查找並排除匹配 itemId 的商品
     updated_cart_items = [item for item in cart['cartItems'] if item['id'] != item_id]
 
-    # 更新购物车数据，这可能涉及到在数据库中更新购物车或会话中的内容
+    # 更新購物車內容
     cart['cartItems'] = updated_cart_items
 
-    # 计算购物车中商品的总数量
-    total_items = sum(item.get('quantity', 1) for item in updated_cart_items)
+    # 計算購物車中商品的總數量
+    cart['totalItems'] = sum(item.get('quantity') for item in updated_cart_items)
 
-    # 最后，返回更新后的购物车内容和总数量
-    return jsonify({'cartItems': updated_cart_items, 'totalItems': total_items})
+    # 返回購物車商品內容和商品總數量
+    return jsonify(cart)
 
-
+@app.route('/checkout', methods=['POST'])
+def checkout():
+    cart['cartItems'] = []
+    cart['totalItems'] = 0
+    return jsonify(cart)
 
 if __name__ == '__main__':
     app.run(debug=True)
