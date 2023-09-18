@@ -60,4 +60,8 @@ def knn_model(item_ids):
     recommandlist =[]
     for i in recommandation:
         recommandlist.append(encodearticle[i])
-    return recommandlist
+    if len(recommandlist)>5:
+        recommandlist = recommandlist[:5]
+        return recommandlist
+    else:
+        return recommandlist
