@@ -46,6 +46,15 @@ def get_type_list(intput_product_group,index_df):
     product_group_type_list = selected_df['product_type_name'].unique().tolist()
     return product_group_type_list , selected_df
 
+def func(length):
+    # Gauss's formula for the sum of the first n integers
+    linArr = np.arange(1, length+1)
+    arrSum = length * (1+length) // 2
+    result = linArr/arrSum
+    result = sorted(result, reverse = True)
+    return result
+
+
 def get_article(input_type,userInput_color,input_selected_df):
 
     product_type = input_type
@@ -86,19 +95,23 @@ def get_article(input_type,userInput_color,input_selected_df):
 
     # 商品銷售排序&展現
     selected_df['product_full'] = selected_df['article_id'].astype(str) + '_' + selected_df['product_type_name'] + '_' + selected_df['prod_name'] + '_' + selected_df['colour_group_name'] 
-    top10 = dict(selected_df['product_full'].value_counts(sort=True).head(10))
-    top10 = pd.DataFrame({'Product':top10.keys(), 'Sales Volume': top10.values()}, index = range(1,len(top10)+1))
-    top10['article_id'] = top10['Product'].str.split('_').str[0].astype(str)
-    top10['Product Type'] = top10['Product'].str.split('_').str[1]
-    top10['Product Name'] = top10['Product'].str.split('_').str[2]
-    top10['Color'] = top10['Product'].str.split('_').str[-1]
-    top10.drop(columns = ['Product'], inplace = True)
-    top10 = top10[['article_id', 'Product Name', 'Color', 'Product Type', 'Sales Volume']]
+    top30 = dict(selected_df['product_full'].value_counts(sort=True).head(30))
+    top30 = pd.DataFrame({'Product':top30.keys(), 'Sales Volume': top30.values()}, index = range(1,len(top30)+1))
+    top30['article_id'] = top30['Product'].str.split('_').str[0].astype(str)
+    top30['Product Type'] = top30['Product'].str.split('_').str[1]
+    top30['Product Name'] = top30['Product'].str.split('_').str[2]
+    top30['Color'] = top30['Product'].str.split('_').str[-1]
+    top30.drop(columns = ['Product'], inplace = True)
+    top30 = top30[['article_id', 'Product Name', 'Color', 'Product Type', 'Sales Volume']]
 
-    top10_id = top10['article_id'].values.tolist()
-    top10_name = top10['Product Name'].values.tolist()
-    top10_color = top10['Color'].values.tolist()
-    top10_type = top10['Product Type'].values.tolist()
+    sample_size = min(10, len(top30['article_id']))
+    random10 = np.random.choice(top30['article_id'], sample_size, replace=False, p = func(len(top30['article_id'])))
+    random10 = top30[top30['article_id'].isin(random10)]
+
+    top10_id = random10['article_id'].values.tolist()
+    top10_name = random10['Product Name'].values.tolist()
+    top10_color = random10['Color'].values.tolist()
+    top10_type = random10['Product Type'].values.tolist()
     
 
 

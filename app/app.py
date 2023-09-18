@@ -107,7 +107,6 @@ def test():
         item_id = request.form['itemId']
         item_id = int(item_id)
         similar_ids = knn.knn_model(item_id)
-        prod , grap= serch.serch_article(similar_ids)
         # 創建列表，儲存每個ID對應的圖片路徑
         image_paths = []
         prod = []
@@ -211,7 +210,7 @@ def myfavorite():
         prod_fav.append(article.prod_name)
         grap_fav.append(article.graphical_appearance_name)
         
-        zip_favor = zip(favorites , fav_paths, prod_fav, grap_fav)
+    zip_favor = zip(favorites , fav_paths, prod_fav, grap_fav)
 
 
 
@@ -232,9 +231,9 @@ def myfavorite():
         prod_recommand.append(article.prod_name)
         grap_recommand.append(article.graphical_appearance_name)
 
-        zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
+    zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
     # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
-    return redirect(url_for('recommed', zip_favor = zip_favor, zip_recommand = zip_recommand))
+    return redirect(url_for('recommed', zip_recommand = zip_recommand))
 
 cart = {
     'cartItems': [],
