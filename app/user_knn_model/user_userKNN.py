@@ -3,11 +3,13 @@ import pandas as pd
 import numpy as np
 import scipy.sparse
 from sklearn.neighbors import NearestNeighbors
+from pathlib import Path
 
+npz_path = Path(__file__).resolve().parent / 'user_sparse_matrix.npz'
 
 def knn_model(item_ids):
     #load data
-    sparse_matrix = scipy.sparse.load_npz('C:\\Users\\User\\Desktop\\workplace\\test_demo\\test_demo\\app\\user_knn_model\\user_sparse_matrix.npz')
+    sparse_matrix = scipy.sparse.load_npz(npz_path)
     model_knn = NearestNeighbors(metric = 'cosine')
     df=pd.read_parquet('C:\\Users\\User\\Desktop\\workplace\\eachCusBoughtdata\\each_customer_bough.parquet')
     df_encodearticle = pd.read_parquet('C:\\Users\\User\\Desktop\\workplace\\eachCusBoughtdata\\encode_articles.parquet')
@@ -58,8 +60,4 @@ def knn_model(item_ids):
     recommandlist =[]
     for i in recommandation:
         recommandlist.append(encodearticle[i])
-    if len(recommandlist) > 5 :
-        recommandlist = recommandlist[:5]
-        return recommandlist
-    else:
-        return recommandlist
+    return recommandlist
