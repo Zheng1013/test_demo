@@ -147,7 +147,8 @@ def test():
 
             image_paths = []
             prod_recommand = []  # 商品名称
-            grap_recommand = []  # 外观描述
+            color_recommand = []
+            type_recommand = []
 
             for id in recommandations:
                 subfolder = "0" + str(id)[:2]
@@ -157,9 +158,10 @@ def test():
 
                 article = Article.query.filter_by(item_id=id).first()
                 prod_recommand.append(article.prod_name)
-                grap_recommand.append(article.graphical_appearance_name)
+                color_recommand.append(article.colour_group_name)
+                type_recommand.append(article.product_type_name)
 
-            zip_recommand = zip(recommandations, image_paths, prod_recommand, grap_recommand)
+            zip_recommand = zip(recommandations, image_paths, prod_recommand, color_recommand, type_recommand)
 
 
             return render_template('recommed.html',five_zip=five_zip,one_zip=one_zip,zip_recommand=zip_recommand) 
