@@ -121,6 +121,26 @@
         {% endfor %}
     </div>
 
+    <h1>個人化推薦</h1>
+    {% if current_user.is_authenticated %}
+    <div class="image-container">
+        {% for id, image_url , prod , grap in zip_recommand %}
+        <div class="item">
+            <div class="featured-item" data-item-id="{{ id }}">
+                <img src="{{ image_url }}" alt="">
+                <h4 style="text-align: left;">商品名稱 : {{ prod }}</h4>
+                <h6 style="text-align: left;"> 外觀 : {{ grap}}</h6>
+                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                    onclick="sendId('{{ id }}')">商品推薦</button>
+                <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 15px;"
+                    onclick="myfavorite('{{ id }}')">加到最愛</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h1>請先登錄</h1>
+    {% endif %}
 </div>
 
 

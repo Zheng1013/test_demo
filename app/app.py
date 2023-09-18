@@ -112,6 +112,34 @@ def test():
         one_zip = zip(similar_ids[:1],image_paths[:1],prod[:1] ,grap[:1])
         five_zip= zip(similar_ids[1:],image_paths[1:],prod[1:] ,grap[1:])
         return render_template('recommed.html',five_zip=five_zip,one_zip=one_zip)  
+    
+@app.route('/recommend')    
+@login_required 
+def recommend():
+    user_id = current_user.id
+    favorites = Favorite.query.filter_by(user_id=user_id).all()
+    
+    # 從Favorites中提取item_id
+    item_ids = [favorite.item_id for favorite in favorites]
+    recommandations = knn_model(item_ids)
+    
+    image_paths = []
+    prod_recommand = []  # 商品名稱
+    grap_recommand = []  # 外觀描述
+
+    for id in recommandations:
+        subfolder = "0" + str(id)[:2]
+        # 商品圖片完整路径
+        image_path = f"../static/images/{subfolder}/0{id}.jpg"
+        image_paths.append(image_path)
+
+        article = Article.query.filter_by(item_id=id).first()
+        prod_recommand.append(article.prod_name)
+        grap_recommand.append(article.graphical_appearance_name)
+
+        zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
+    return render_template('recommed.html', zip_recommand = zip_recommand)
+
 
 
 #--------登錄系統-------
@@ -219,6 +247,7 @@ def myfavorite():
         grap_recommand.append(article.graphical_appearance_name)
 
         zip_recommand = zip(recommandations , image_paths, prod_recommand, grap_recommand)
+    # return render_template('recommed.html', zip_recommand = zip_recommand)
     # 返回myfavorite.html模板，將最愛列表、推薦商品以及相關的商品資訊傳遞給模板
     return render_template('myfavorite.html', zip_favor = zip_favor, zip_recommand = zip_recommand)
 
