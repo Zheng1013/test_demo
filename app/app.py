@@ -184,7 +184,6 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if  user is not None and user.check_password(form.password.data):
             login_user(user)
-            flash("您已經成功的登入系統")
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('welcome_user')
@@ -209,7 +208,7 @@ def register():
         # add to db table
         db.session.add(user)
         db.session.commit()
-        flash("感謝註冊本系統成為會員")
+        flash("感謝註冊本系統成為會員","success")
         return redirect(url_for('login'))
     return render_template('register.html',form=form)
 
