@@ -43,6 +43,7 @@
         z-index: -1;
         /* 确保背景在最底层 */
     }
+
     @media (max-width: 768px) {
         .background {
             background-size: cover;
@@ -51,7 +52,7 @@
 
         .register-container {
             width: 90%;
-            
+
         }
     }
 </style>
@@ -63,7 +64,14 @@
     <div class="register-container">
         <form method="POST">
             {{ form.hidden_tag() }}
-            <div class="form-group">
+
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            {% endfor %}
+
+            <div id="email" class="form-group">
                 {{ form.email.label }}
                 {{ form.email(class_="form-control form-control-lg") }}
             </div>
@@ -85,5 +93,10 @@
     </div>
 </div>
 
-    {% include "parts/footer.html" %}
+{% include "parts/footer.html" %}
+
+<script>
+
+</script>
+
 {% endblock content %}

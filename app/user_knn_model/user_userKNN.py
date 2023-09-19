@@ -57,9 +57,11 @@ def knn_model(item_ids):
         temp = df.loc[df['encode_customer_id'] == i]['encode_article_id'].to_list()[0].split(',')
         temp = set(map(int, temp))
         recommandation = (recommandation | temp)
+
     recommandlist =[]
     for i in recommandation:
         recommandlist.append(encodearticle[i])
+        
     if len(recommandlist)>5:
         recommandlist = recommandlist[:5]
         return recommandlist

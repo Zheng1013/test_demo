@@ -182,20 +182,21 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user.check_password(form.password.data) and user is not None:
+        if  user is not None and user.check_password(form.password.data):
             login_user(user)
             flash("您已經成功的登入系統")
             next = request.args.get('next')
-            if next == None or not next[0]=='/':
+            if next is None or not next.startswith('/'):
                 next = url_for('welcome_user')
             return redirect(next)
+        else:
+            flash("登入失敗：無效的電子郵件或密碼", 'error')
     return render_template('login.html',form=form)
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash("您已經登出系統")
     return redirect(url_for('base'))
 
 @app.route('/register',methods=['GET','POST'])

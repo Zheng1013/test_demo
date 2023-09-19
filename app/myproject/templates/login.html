@@ -7,7 +7,7 @@
         font-size: 24px;
     }
 
-    
+
     .background {
         background-image: url('../static/html_img/login.jpg');
         background-size: cover;
@@ -46,29 +46,41 @@
 
         .login-container {
             width: 90%;
-            
+
         }
     }
 </style>
 {% block content %}
 <div class="background"></div>
-    <div class="content">
-        <div class="login-container">
-            <form method="POST">
-                {# This hidden_tag is a CSRF security feature. #}
-                {{ form.hidden_tag() }}
-                <div class="form-group">
-                    {{ form.email.label }}
-                    {{ form.email(class_="form-control form-control-lg") }}
-                </div>
-                <div class="form-group">
-                    {{ form.password.label }}
-                    {{ form.password(class_="form-control form-control-lg") }}
-                </div>
-                <br>
-                {{form.submit(class_="btn btn-primary btn-lg")}}
-            </form>
+<div class="content">
+    <div class="login-container">
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
         </div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            {# This hidden_tag is a CSRF security feature. #}
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(class_="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class_="form-control form-control-lg") }}
+            </div>
+            <br>
+            {{form.submit(class_="btn btn-primary btn-lg")}}
+        </form>
     </div>
+</div>
 {% include "parts/footer.html" %}
 {% endblock content %}
