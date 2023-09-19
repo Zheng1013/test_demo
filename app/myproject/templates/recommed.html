@@ -1,4 +1,4 @@
-{% include "parts/navbar.html" %}
+{% include "parts/base.html" %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
     .content {
@@ -22,7 +22,7 @@
         /* 商品之间的间距，根据需要调整 */
         max-width: 1800px;
         /* 最大宽度，根据需要调整 */
-        margin: 20px auto;
+        margin: 10px auto;
     }
 
     /* 图片项目的样式 */
@@ -89,6 +89,17 @@
         font-weight: 700;
         margin-bottom: 0px;
     }
+    .h2-container {
+        background-color: rgba(255, 255, 255, 0.8);
+        /* 表单容器的透明背景 */
+        padding: 10px;
+        text-align: left;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        display: inline-block;
+        /* max-width: 85%; */
+        
+    }
 
     @media (max-width: 768px) {
         .image-container {
@@ -108,11 +119,13 @@
             width: 100%;
             
         }
+    
     }
 </style>
 
 {% block content %}
-<div class="content">
+
+
     <div class="one-container">
         {% for id, image_url , name , color , type in one_zip %}
         <div class="oneitem">
@@ -125,7 +138,7 @@
         </div>
         {% endfor %}
     </div>
-
+    <h1 style="margin:10px auto;">相似商品</h1>
     <div class="image-container">
         {% for id, image_url , name , color , type in five_zip %}
         <div class="item">
@@ -143,7 +156,7 @@
         {% endfor %}
     </div>
 
-    <h1>個人化推薦</h1>
+    <h1 style="margin:10px auto;">個人化推薦</h1>
     {% if current_user.is_authenticated %}
     <div class="image-container">
         {% for id, image_url , name , color , type in zip_recommand %}
@@ -162,37 +175,12 @@
         {% endfor %}
     </div>
     {% else %}
-    <div>
-    <h2>請先登錄</h2>
+    <div style="margin: 10px auto;">
+    <h2 class="h2-container">請先 <a href="{{url_for('login')}}">登入系統</a> 或 <a href="{{url_for('register')}}">註冊帳號</a></h2>
     </div>
     {% endif %}
-</div>
+
 {% endblock content %}
 
 {% include "parts/footer.html" %}
 
-
-
-
-
-
-<script>
-    function sendId(itemId) {
-
-        // 创建一个隐藏的表单元素
-        var form = $('<form action="/test" method="POST"></form>');
-
-        // 创建一个隐藏的输入字段，将数据放入其中
-        var input = $('<input type="hidden" name="itemId" value="' + itemId + '">');
-
-        // 将输入字段添加到表单中
-        form.append(input);
-
-        // 将表单添加到页面中并模拟提交
-        form.appendTo('body').submit();
-    }
-</script>
-
-{% block script %}
-{% include "parts/script.html" %}
-{% endblock script %}

@@ -1,4 +1,5 @@
-{% include "parts/navbar.html" %}
+{% include "parts/base.html" %}
+
 <script src="{{url_for('static',filename='bootstrap-5.0.2-dist/js/bootstrap.js')}}"></script>
 <link rel="stylesheet" href="{{url_for('static',filename='bootstrap-5.0.2-dist/css/bootstrap.css')}}">
 <style>
@@ -6,13 +7,62 @@
         margin-top: 20px;
         font-size: 24px;
     }
+
+    .hint-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        /* 表单容器的透明背景 */
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        width: 50%;
+
+    }
+    #background {
+        background-size: cover;
+        /* 背景图像的大小适应容器 */
+        height: 100vh;
+        /* 设置容器的高度，占满整个视口 */
+        background-position: center 0px;
+        width: 100%;
+        z-index: -1;
+        /* 确保背景在最底层 */
+    }
+  
 </style>
-<div style="width: 80%; margin: auto; margin-top: 50px;">
-    {% if current_user.is_authenticated %}
-    <h1 class="form-group">{{current_user.username}}</h1>
-    {% else %}
-    <p class="form-group">請 <a href="{{url_for('login')}}">登入帳號</a> 或 <a href="{{url_for('register')}}">註冊帳號</a>
-    </p>
-    {% endif %}
+<div id="background"></div>
+{% block content%}
+<div class="content">
+    <div class="hint-container">
+        {% if current_user.is_authenticated %}
+        <h1 class="form-group">{{current_user.username}}</h1>
+        {% else %}
+        <p class="form-group">請先 <a href="{{url_for('login')}}">登入系統</a> 或 <a href="{{url_for('register')}}">註冊帳號</a>
+        </p>
+        {% endif %}
+    </div>
 </div>
 {% include "parts/footer.html" %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.clouds2.min.js"></script>
+<script>
+VANTA.CLOUDS2({
+  el: "#background",
+  mouseControls: true,
+  touchControls: true,
+  gyroControls: false,
+  minHeight: 200.00,
+  minWidth: 200.00,
+  scale: 1.00,
+  texturePath: "../static/html_img/noise.png"
+})
+</script>
+
+
+{% endblock content%}
+

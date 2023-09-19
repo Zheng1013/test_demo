@@ -342,8 +342,8 @@ def checkout():
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
+    app.run(debug=True)
     
     # 使用ngrok註解app.run(debug=True),使用以下
-    app.run()
-    run_with_ngrok(app)
+    # app.run()
+    # run_with_ngrok(app)
