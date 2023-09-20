@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 
 # parquet_path = Path(__file__).resolve().parent / 'firstInput.parquet'
-parquet_path = "C:\\Users\\User\\Desktop\\workplace\\eachCusBoughtdata\\firstInput.parquet"
+parquet_path = "D:\\BDSE31_Team5\\workplace\\eachCusBoughtdata\\firstInput.parquet"
 #輸入年紀調用的function 
 
 def get_index(age_input):

@@ -11,8 +11,8 @@ def knn_model(item_ids):
     #load data
     sparse_matrix = scipy.sparse.load_npz(npz_path)
     model_knn = NearestNeighbors(metric = 'cosine')
-    df=pd.read_parquet('C:\\Users\\User\\Desktop\\workplace\\eachCusBoughtdata\\each_customer_bough.parquet')
-    df_encodearticle = pd.read_parquet('C:\\Users\\User\\Desktop\\workplace\\eachCusBoughtdata\\encode_articles.parquet')
+    df=pd.read_parquet('D:\\BDSE31_Team5\\workplace\\eachCusBoughtdata\\each_customer_bough.parquet')
+    df_encodearticle = pd.read_parquet('D:\\BDSE31_Team5\\workplace\\eachCusBoughtdata\\encode_articles.parquet')
     encodearticle = df_encodearticle.article_id.to_list()
     
     #boughtList encode
