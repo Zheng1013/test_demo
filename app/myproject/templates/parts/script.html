@@ -63,8 +63,12 @@
         if (event.key == "Enter") {
             const ageInput = document.getElementById("age_input")
             const ageValue = parseInt(ageInput.value,10)
-            if (isNaN(ageValue) || ageValue<=0 || ageValue !== parseFloat(ageInput.value)) {
+            if (isNaN(ageValue) || ageValue !== parseFloat(ageInput.value)) {
                 alert("請輸入整數")
+            }else if(ageValue < 16){
+                alert("年齡輸入下限為16歲")
+            }else if (ageValue > 99){
+                alert("年齡輸入上限為99歲")
             }else{
                 indexOptions();
             }
@@ -237,9 +241,139 @@
         form.submit();
     }
 
+</script>
 
+
+<!--設定小螢幕時的age下拉選單,默認選項為第一個選項-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ageSelect = document.getElementById("ageSelect");
+        ageSelect.selectedIndex = 0;
+    });
+</script>
+
+<!--根據小螢幕時的age下拉選單選擇,回傳到伺服器,產生index選項-->
+<script>
+    if (window.innerWidth <= 767) {
+
+        async function ageSelect() {
+        const ageSelect = document.getElementById("ageSelect").value;
+        const indexMenu = document.getElementById("indexMenu");
+
+        // 向Flask後端發送POST请求，傳遞使用者输入
+        const response = await fetch('/get_index', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'age_input': ageSelect })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const options = data.options;
+
+            // 清空下拉選單
+            indexMenu.innerHTML = "";
+
+            // 創建一個默認選項,預防使用者選擇第一個選項時,無法觸發change事件
+            const defaultOption = document.createElement("option");
+            // 設定默認選項為空
+            defaultOption.value = "";
+            // 設定默認選項顯示的內容
+            defaultOption.textContent = "請選擇一個選項";
+            // 將默認選項添加到下拉選單的最前面
+            indexMenu.insertBefore(defaultOption, indexMenu.firstChild);
+
+            // 添加選項
+            options.forEach(option => {
+                const optionElement = document.createElement("option");
+                optionElement.value = option;
+                optionElement.textContent = option;
+                indexMenu.appendChild(optionElement);
+            });
+
+
+        }
+    }
+     // 監聽使用者改變ageSelect時觸發
+     document.getElementById("ageSelect").addEventListener("change", ageSelect
+    );
+
+    }
+</script>
+
+<script>
+
+if (window.innerWidth <= 767) {
+
+    async function colorSelect() {
+        const typeMenu = document.getElementById("typeMenu").value;
+        const colorSelect = document.getElementById("colorSelect");
+
+        // 向Flask後端發送POST请求，傳遞使用者输入
+        const response = await fetch('/get_color', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'typeMenu': typeMenu })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const options = data.options;
+
+            // 添加選項
+            options.forEach(option => {
+                const optionElement = document.createElement("option");
+                optionElement.value = option;
+                optionElement.textContent = option;
+                colorSelect.appendChild(optionElement);
+            });
+
+
+        }
+    }
+     // 監聽使用者改變ageSelect時觸發
+     document.getElementById("typeMenu").addEventListener("change", colorSelect
+    );
+
+}
 
 </script>
+
+<script>
+    if (window.innerWidth <= 767) {
+
+    // 監聽使用者改變colorSelect時觸發
+    document.getElementById("colorSelect").addEventListener("change",  sendColor
+    );
+
+    function sendColor() {
+        const colorSelect = document.getElementById("colorSelect").value;
+        // 创建一个隐藏的表单元素
+        var form = document.createElement('form');
+        form.action = "/"; // 指定服务器端的路由
+        form.method = "POST"; // 使用POST方法提交
+
+        // 創建隐藏的输入字段，用於儲存color下拉選單的值
+        var colorInput = document.createElement('input');
+        colorInput.type = 'hidden';
+        colorInput.name = 'color_input';
+        colorInput.value = colorSelect;
+
+        // 将输入字段添加到表单中
+        form.appendChild(colorInput);
+
+        // 将表单添加到页面中并模拟提交
+        document.body.appendChild(form);
+        form.submit();
+    }
+    }
+    
+</script>
+
 
 <!-- 將選擇的圖片id傳送到後端伺服器 -->
 <script>

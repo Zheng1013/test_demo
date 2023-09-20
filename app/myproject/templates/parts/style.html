@@ -99,26 +99,44 @@
 
         .d-flex {
             flex-direction: column;
-            /* 列表布局 */
             margin: 20px;
         }
 
         .item {
             width: 100%;
             margin-bottom: 20px;
-            /* 添加底部外边距 */
         }
     }
 
+    /*  設定第二個有關age和color的下拉選單,用於小螢幕觀看時可以用於顯現 */
+    @media (max-width: 767px) {
+        #age_block {
+            display: none; /* 小屏幕查看時,影藏age的輸入框 */
+        }
+        #color_block{
+            display: none;
+        }
+        #ageSelect {
+            display: block; /* 小屏幕查看時,顯示age的下拉選單 */
+        }
+        #colorSelect{
+            display: block;
+        }
+    }
+    /*  大螢幕瀏覽網站時影藏age和color的下拉選單可以用於影藏 */
+    @media (min-width: 767px) {
+        #ageSelect {
+            display: none; 
+        }
+        #colorSelect{
+            display: none;
+        }
+    }
 
-
-    /* 在屏幕宽度小于等于768px时修改样式 */
     @media (max-width: 768px) {
         .banner {
             width: 100%;
-            /* 在小屏幕上仍然使用100%宽度 */
             height: auto;
-            /* 高度自动调整以保持宽高比 */
         }
     }
 </style>

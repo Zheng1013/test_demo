@@ -42,21 +42,39 @@ def index():
         return render_template('First_page.html',base_data=base_data)
     
     elif request.method == "POST":
-        global dataframe
-        group_df = dataframe
-        type_input = request.form['typeSelect']
-        color_input = request.form['color_input']
-        ids , names , colors ,types  = option.get_article(type_input,color_input,group_df)
+            global dataframe
+            if len(request.form) == 2:
+                # global dataframe
+                group_df = dataframe
+                type_input = request.form['typeSelect']
+                color_input = request.form['color_input']
+                ids , names , colors ,types  = option.get_article(type_input,color_input,group_df)
 
-        image_root = '../static/images/'
-        image_paths = []
-        for id in ids:
-            subfolder = "0" + str(id)[:2]
-            # top10 商品圖片完整路径
-            image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
-            image_paths.append(image_path)
-        zip_top10 =  zip(ids,names,colors,types,image_paths)
-        return render_template('First_page.html',zip_top10=zip_top10 ,base_data=base_data)
+                image_root = '../static/images/'
+                image_paths = []
+                for id in ids:
+                    subfolder = "0" + str(id)[:2]
+                    # top10 商品圖片完整路径
+                    image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
+                    image_paths.append(image_path)
+                zip_top10 =  zip(ids,names,colors,types,image_paths)
+                return render_template('First_page.html',zip_top10=zip_top10 ,base_data=base_data)
+            
+            elif len(request.form) == 1:
+                # global dataframe
+                color_df = dataframe
+                color_input = request.form['color_input']
+                ids , names , colors ,types  = option.small_screen_get_article(color_input,color_df)
+
+                image_root = '../static/images/'
+                image_paths = []
+                for id in ids:
+                    subfolder = "0" + str(id)[:2]
+                    # top10 商品圖片完整路径
+                    image_path = image_root + f"{subfolder}"  + f"/0{id}.jpg"
+                    image_paths.append(image_path)
+                zip_top10 =  zip(ids,names,colors,types,image_paths)
+                return render_template('First_page.html',zip_top10=zip_top10 ,base_data=base_data)
 
 
 @app.route('/get_index',methods=['POST'])
@@ -84,6 +102,17 @@ def get_type():
     group_type_list , group_df = option.get_type_list(group_input,index_df)
     dataframe = group_df
     return jsonify({'options':group_type_list})
+
+# 小螢幕用
+@app.route('/get_color',methods=['POST'])
+def get_color():
+    global dataframe
+    type_df = dataframe
+    type_input = str(request.json.get('typeMenu', '0'))
+    color_list , color_df = option.get_color(type_input,type_df)
+    dataframe = color_df
+    return jsonify({'options':color_list})
+
 
 #-------首頁(GET:首頁 ,POST:將下拉式選單以POST傳送至首頁)end---------
 
@@ -342,8 +371,8 @@ def checkout():
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
+    app.run(debug=True)
     
     # 使用ngrok註解app.run(debug=True),使用以下
-    app.run()
-    run_with_ngrok(app)
+    # app.run()
+    # run_with_ngrok(app)
