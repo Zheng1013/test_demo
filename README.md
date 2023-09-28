@@ -51,7 +51,12 @@ CREATE TABLE articles (
     section_no  INT NOT NULL,
     section_name VARCHAR(255) NOT NULL,
     garment_group_no INT NOT NULL,
-   ．csv
+    garment_group_name VARCHAR(255) NOT NULL,
+    detail_desc text NOT NULL,
+    PRIMARY KEY (item_id)
+);
+
+＃新建articles的table後,導入articles.csv
 
 LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\articles.csv' 
 INTO TABLE articles 
