@@ -1,6 +1,8 @@
 # test_demo
-#如果有從kaggle載下H&M的圖片檔images,可以將圖片檔放在myproject/template/static裡面
-#首頁的下拉式選單要使用,需要將firstinput的parquet放在knn_model資料夾
+#完整功能使用
+#選擇workplace資料夾（parquet檔）想放置的位置，之後更改test_Final_Project\app\user_knn_model\user_userKNN.py裡的路徑
+#選擇workplace資料夾（parquet檔）想放置的位置，之後更改test_Final_Project\app\knn_model\option.py裡的路徑
+#將kaggle下載的h&m服裝的images檔，放置到test_Final_Project\app\myproject\static下
 
 
 #手動建立MYSQL table
