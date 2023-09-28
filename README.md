@@ -1,8 +1,11 @@
 # test_demo
-# 完整功能使用
-# 選擇workplace資料夾（parquet檔）想放置的位置，之後更改test_Final_Project\app\user_knn_model\user_userKNN.py裡的路徑
-# 選擇workplace資料夾（parquet檔）想放置的位置，之後更改test_Final_Project\app\knn_model\option.py裡的路徑
-# 將kaggle下載的h&m服裝的images檔，放置到test_Final_Project\app\myproject\static下
+#完整功能使用
+
+#選擇workplace資料夾（parquet檔）想放置的位置，之後更改test_Final_Project\app\user_knn_model\user_userKNN.py裡的路徑
+
+#選擇workplace資料夾（parquet檔）想放置的位置，之後更改test_Final_Project\app\knn_model\option.py裡的路徑
+
+#將kaggle下載的h&m服裝的images檔，放置到test_Final_Project\app\myproject\static下
 
 
 #手動建立MYSQL table
